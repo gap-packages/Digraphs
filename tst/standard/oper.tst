@@ -149,6 +149,31 @@ gap> gr := OnDigraphs(gr, t);
 gap> OutNeighbours(gr);
 [ [ 2 ], [ 1, 1 ], [  ] ]
 
+#  OnTuplesDigraphs: for a digraph and a permutation
+gap> D := [ChainDigraph(3), CycleDigraph(4)];;
+gap> List(D, OutNeighbours);
+[ [ [ 2 ], [ 3 ], [  ] ], [ [ 2 ], [ 3 ], [ 4 ], [ 1 ] ] ]
+gap> List(OnTuplesDigraphs(D, (1, 3)), OutNeighbours);
+[ [ [  ], [ 1 ], [ 2 ] ], [ [ 4 ], [ 1 ], [ 2 ], [ 3 ] ] ]
+gap> D := [ChainDigraph(3), DigraphReverse(ChainDigraph(3))];;
+gap> List(D, OutNeighbours);
+[ [ [ 2 ], [ 3 ], [  ] ], [ [  ], [ 1 ], [ 2 ] ] ]
+gap> List(OnTuplesDigraphs(D, (1, 3)), OutNeighbours);
+[ [ [  ], [ 1 ], [ 2 ] ], [ [ 2 ], [ 3 ], [  ] ] ]
+gap> OnTuplesDigraphs(D, (1, 3)) = Permuted(D, (1, 2));
+true
+
+#  OnSetsDigraphs: for a digraph and a permutation
+gap> D := [ChainDigraph(3), DigraphReverse(ChainDigraph(3))];;
+gap> IsSet(D);
+true
+gap> OnSetsDigraphs(D, (1, 3)) = D;
+true
+gap> OnSetsDigraphs(D, (1, 3)) = OnTuplesDigraphs(D, (1, 3));
+false
+gap> MinimalGeneratingSet(Stabilizer(SymmetricGroup(3), D, OnSetsDigraphs));
+[ (1,3) ]
+
 #  OnMultiDigraphs: for a pair of permutations
 gap> gr1 := CompleteDigraph(3);
 <immutable complete digraph with 3 vertices>
