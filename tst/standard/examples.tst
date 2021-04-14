@@ -229,17 +229,17 @@ gap> JohnsonDigraph(IsMutableDigraph, 4, 2);
 <mutable digraph with 6 vertices, 24 edges>
 
 #  BishopsDigraph
-gap> D := BishopsGraph("black", 7, 9);
+gap> D := BishopsGraph("dark-square", 7, 9);
 <immutable symmetric digraph with 63 vertices, 272 edges>
 gap> IsConnectedDigraph(D);
 false
-gap> D := BishopsGraph("white", 4, 3);
+gap> D := BishopsGraph("light-square", 4, 3);
 <immutable symmetric digraph with 12 vertices, 16 edges>
 gap> OutNeighbours(D);
-[ [  ], [ 7, 12, 5 ], [  ], [ 7, 10 ], [ 2, 10 ], [  ], [ 4, 12, 2, 10 ], 
-  [  ], [  ], [ 7, 4, 5 ], [  ], [ 7, 2 ] ]
+[ [  ], [ 4, 6 ], [  ], [ 2, 8, 12 ], [  ], [ 2, 8, 10 ], [  ], 
+  [ 4, 6, 10, 12 ], [  ], [ 6, 8 ], [  ], [ 4, 8 ] ]
 gap> BishopsGraph("blue", 8, 4);
-Error, the argument <color> must be either "black" or "white".
+Error, the argument <color> must be either "dark-square" or "light-square".
 
 #  RooksDigraph
 gap> RooksGraph(4, 8);
@@ -249,8 +249,8 @@ gap> D := RooksGraph(3, 2);
 gap> IsPlanarDigraph(D);
 true
 gap> OutNeighbours(D);
-[ [ 2, 3, 4 ], [ 1, 3, 5 ], [ 1, 2, 6 ], [ 5, 6, 1 ], [ 4, 6, 2 ], 
-  [ 4, 5, 3 ] ]
+[ [ 2, 3, 5 ], [ 1, 4, 6 ], [ 4, 1, 5 ], [ 3, 2, 6 ], [ 6, 1, 3 ], 
+  [ 5, 2, 4 ] ]
 
 #  QueensDigraph
 gap> QueensGraph(5, 2);
@@ -260,8 +260,8 @@ gap> QueensGraph(3, 4);
 gap> D := QueensGraph(2, 3);
 <immutable connected symmetric digraph with 6 vertices, 26 edges>
 gap> OutNeighbours(D);
-[ [ 2, 3, 5, 4 ], [ 1, 4, 6, 3 ], [ 4, 1, 5, 2, 6 ], [ 3, 2, 6, 1, 5 ], 
-  [ 6, 1, 3, 4 ], [ 5, 2, 4, 3 ] ]
+[ [ 2, 3, 4, 5 ], [ 1, 3, 5, 4, 6 ], [ 1, 2, 6, 5 ], [ 5, 6, 1, 2 ], 
+  [ 4, 6, 2, 1, 3 ], [ 4, 5, 3, 2 ] ]
 
 # LollipopGraph
 gap> LollipopGraph(5, 4);

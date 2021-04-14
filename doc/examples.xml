@@ -319,9 +319,9 @@ gap> GeneralisedPetersenGraph(IsMutableDigraph, 9, 4);
   <Returns>A digraph.</Returns>
   <Description>
     If <A>m</A> and <A>n</A> are positive integers and <A>color</A> is
-    either the string <C>"black"</C> or the string <C>"white"</C>, then this
-    operation returns the <E>bishop's graph</E> for an <A>m</A> by <A>n</A>
-    board for a bishop of that square color.<P/>
+    either the string <C>"dark-square"</C> or the string <C>"light-square"</C>,
+    then this operation returns the <E>bishop's graph</E> for an <A>m</A> by
+    <A>n</A> board for a bishop of that square color.<P/>
 
     From
     <URL>https://mathworld.wolfram.com/BishopGraph.html</URL>:
@@ -345,13 +345,13 @@ gap> GeneralisedPetersenGraph(IsMutableDigraph, 9, 4);
       Filt="IsImmutableDigraph"/> is used by default.<P/>
 
 <Example><![CDATA[
-gap> D := BishopsGraph("black", 3, 5);
+gap> D := BishopsGraph("dark-square", 3, 5);
 <immutable symmetric digraph with 15 vertices, 24 edges>
 gap> IsConnectedDigraph(D);       
 false
-gap> BishopsGraph("white", 4, 4);
+gap> BishopsGraph("light-square", 4, 4);
 <immutable symmetric digraph with 16 vertices, 28 edges>
-gap> D := BishopsGraph("black", 1, 5);
+gap> D := BishopsGraph("dark-square", 1, 5);
 <immutable empty digraph with 5 vertices>
 ]]></Example>
   </Description>
@@ -590,7 +590,7 @@ true
     <Q>The <C><A>m</A> x <A>m</A></C> rook's graph (confusingly called the 
     <C><A>m</A> x <A>m</A></C> grid by Brouwer et al.1989, p. 440) and also
     sometimes known as a lattice graph (e.g., Brouwer) is the graph Cartesian 
-    product <C>K_m</C> square <C>K_n</C> of complete graphs, which is
+    product <C>K_m square K_n</C> of complete graphs, which is
     equivalent to the line graph <C>L(K_(m,n))</C> of the complete bipartite graph
     <C>K_(m,n)</C>. This is the definition adopted for example by Brualdi and Ryser
     (1991, p. 153), although restricted to the case <C>m = n</C>. This definition

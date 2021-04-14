@@ -373,89 +373,37 @@ InstallMethod(BishopsGraphCons,
 "for IsMutableDigraph, a string and two positive integers",
 [IsMutableDigraph, IsString, IsPosInt, IsPosInt],
 function(filt, color, m, n)
-  local D, i, multiple, position, upLeft, upRight, downLeft, downRight,
-  j, collumn, row, leftBound, rightBound;
+  local D, D1, D2, i, j, v;
 
-  if not (color = "black" or color = "white") then
-    ErrorNoReturn("the argument <color> must be either \"black\" or \"white\".");
+  if not (color = "dark-square" or color = "light-square") then
+    ErrorNoReturn("the argument <color> must be either \"dark-square\" or \"light-square\".");
   fi;
 
-  D := EmptyDigraph(filt, m * n);
+  D1 := EmptyDigraph(filt, m * n);
+  D2 := EmptyDigraph(filt, m * n);
 
-  for i in [1 .. m * n] do
-    multiple := i mod m = 0;
-    if color = "black" and IsOddInt(i) or color = "white" and IsEvenInt(i) then
-      collumn := QuoInt(i, m);
-      if multiple then
-        collumn := collumn - 1;
+  for i in [1 .. (m - 1)] do
+    for j in [1 .. (n - 1)] do
+      if IsEvenInt(i + j) and color = "dark-square"
+      or IsOddInt(i + j) and color = "light-square" then
+        v := (i - 1) * n + j;
+        DigraphAddEdge(D1, [v, v + n + 1]);
       fi;
-
-      if not multiple and IsOddInt(collumn) then
-        position := (collumn + 1) * m - (i mod m) + 1;
-      elif multiple and IsOddInt(collumn) then
-        position := collumn * m + 1;
-      else
-        position := i;
-      fi;
-
-      if not position mod m = 0 then
-        row := position mod m;
-      else
-        row := m;
-      fi;
-
-      upLeft := position - (m - 1);
-      upRight := position + (m + 1);
-      downLeft := position - (m + 1);
-      downRight := position + (m - 1);
-
-      leftBound := true;
-      rightBound := true;
-
-      if not position mod m = 0 then
-        for j in [1 .. m - row] do
-          if upLeft > 0 then
-            DigraphAddEdge(D, [position, upLeft]);
-            upLeft := upLeft - (m - 1);
-          else
-            leftBound := false;
-          fi;
-          if upRight <= m * n then
-            DigraphAddEdge(D, [position, upRight]);
-            upRight := upRight + (m + 1);
-          else
-            rightBound := false;
-          fi;
-          if not (leftBound or rightBound) then
-            break;
-          fi;
-        od;
-      fi;
-
-      leftBound := true;
-      rightBound := true;
-
-      if not row = 1 then
-        for j in [1 .. row - 1] do
-          if downLeft > 0 then
-            DigraphAddEdge(D, [position, downLeft]);
-            downLeft := downLeft - (m + 1);
-          else
-            leftBound := false;
-          fi;
-          if downRight <= m * n then
-            DigraphAddEdge(D, [position, downRight]);
-            downRight := downRight + (m - 1);
-          else
-            rightBound := false;
-          fi;
-          if not (leftBound or rightBound) then
-            break;
-          fi;
-        od;
-      fi;
-    fi;
+    od;
   od;
+  for i in [1 .. (m - 1)] do
+    for j in [1 .. (n - 1)] do
+      if IsEvenInt(i + j) and color = "light-square"
+      or IsOddInt(i + j) and color = "dark-square" then
+        v := (i - 1) * n + j + 1;
+        DigraphAddEdge(D2, [v, v + n - 1]);
+      fi;
+    od;
+  od;
+  DigraphTransitiveClosure(D1);
+  DigraphTransitiveClosure(D2);
+  D := DigraphEdgeUnion(D1, D2);
+  DigraphSymmetricClosure(D);
   return D;
 end);
 
@@ -485,8 +433,8 @@ InstallMethod(RooksGraphCons,
 [IsMutableDigraph, IsPosInt, IsPosInt],
 function(filt, m, n)
   local D, completeD1, completeD2, cartesianProduct;
-  completeD1 := CompleteDigraph(m);
-  completeD2 := CompleteDigraph(n);
+  completeD1 := CompleteDigraph(n);
+  completeD2 := CompleteDigraph(m);
   cartesianProduct := DigraphCartesianProduct(completeD1, completeD2);
   D := DigraphMutableCopy(cartesianProduct);
   return D;
@@ -518,11 +466,11 @@ InstallMethod(RooksGraph, "for two positive integers",
 InstallMethod(QueensGraphCons,
 "for IsMutableDigraph and two integers",
 [IsMutableDigraph, IsPosInt, IsPosInt],
-function(filt, n, k)
+function(filt, m, n)
   local D, D1, D2, D3;
-  D1 := RooksGraphCons(filt, n, k);
-  D2 := BishopsGraphCons(filt, "black", n, k);
-  D3 := BishopsGraphCons(filt, "white", n, k);
+  D1 := RooksGraphCons(filt, m, n);
+  D2 := BishopsGraphCons(filt, "dark-square", m, n);
+  D3 := BishopsGraphCons(filt, "light-square", m, n);
   D := DigraphEdgeUnion(D1, D2, D3);
   return D;
 end);
