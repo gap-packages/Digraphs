@@ -386,7 +386,7 @@ function(filt, color, m, n)
   for i in [1 .. (m - 1)] do
     for j in [1 .. (n - 1)] do
       if IsEvenInt(i + j) and color = "dark-square"
-        or IsOddInt(i + j) and color = "light-square" then
+          or IsOddInt(i + j) and color = "light-square" then
         v := (i - 1) * n + j;
         DigraphAddEdge(D1, [v, v + n + 1]);
       fi;
@@ -395,7 +395,7 @@ function(filt, color, m, n)
   for i in [1 .. (m - 1)] do
     for j in [1 .. (n - 1)] do
       if IsEvenInt(i + j) and color = "light-square"
-        or IsOddInt(i + j) and color = "dark-square" then
+          or IsOddInt(i + j) and color = "dark-square" then
         v := (i - 1) * n + j + 1;
         DigraphAddEdge(D2, [v, v + n - 1]);
       fi;
