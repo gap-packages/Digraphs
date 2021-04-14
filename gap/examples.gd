@@ -99,3 +99,8 @@ DeclareOperation("BishopsGraph", [IsFunction, IsString, IsPosInt, IsPosInt]);
 DeclareConstructor("QueensGraphCons", [IsDigraph, IsPosInt, IsPosInt]);
 DeclareOperation("QueensGraph", [IsPosInt, IsPosInt]);
 DeclareOperation("QueensGraph", [IsFunction, IsPosInt, IsPosInt]);
+
+DeclareConstructor("BookDigraphCons", [IsDigraph, IsPosInt]);
+DeclareOperation("BookDigraph", [IsPosInt]);
+DeclareOperation("BookDigraph", [IsFunction, IsPosInt]);
+

@@ -100,7 +100,7 @@
     <#Include Label="HaarGraph">
     <#Include Label="BananaTree">
     <#Include Label="TadpoleDigraph">
-
+    <#Include Label="BookDigraph">
   </Section>
 
 </Chapter>
