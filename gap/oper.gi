@@ -657,6 +657,182 @@ function(D1, D2)
   return DigraphNC(edges);
 end);
 
+InstallMethod(StrongProduct, "for a digraph and digraph",
+[IsDigraph, IsDigraph],
+function(D1, D2)
+  local m, n, E1, E2, edges, next, map, u, v, w, x;
+
+  if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
+    ErrorNoReturn("StrongProduct does not support multidigraphs,");
+  fi;
+
+  m := DigraphNrVertices(D1);
+  n := DigraphNrVertices(D2);
+
+  E1 := DigraphDual(D1);
+  E2 := DigraphDual(D2);
+
+  edges := EmptyPlist(m * n);
+  next  := 0;
+
+  map := function(a, b)
+    return (a - 1) * n + b;
+  end;
+
+  for u in [1 .. m] do
+    for v in [1 .. n] do
+      next := next + 1;
+      edges[next] := [];
+      for x in OutNeighbours(D2)[v] do
+        AddSet(edges[next], map(u, x));
+        for w in OutNeighbours(D1)[u] do
+          AddSet(edges[next], map(w, x));
+        od;
+      od;
+      for w in OutNeighbours(D1)[u] do
+        AddSet(edges[next], map(w, v));
+      od;
+    od;
+  od;
+  return DigraphNC(edges);
+end);
+
+InstallMethod(CoNormalProduct, "for a digraph and digraph",
+[IsDigraph, IsDigraph],
+function(D1, D2)
+  local m, n, E1, E2, edges, next, map, u, v, w, x;
+
+  if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
+    ErrorNoReturn("CoNormalProduct does not support multidigraphs,");
+  fi;
+
+  m := DigraphNrVertices(D1);
+  n := DigraphNrVertices(D2);
+
+  E1 := DigraphDual(D1);
+  E2 := DigraphDual(D2);
+
+  edges := EmptyPlist(m * n);
+  next  := 0;
+
+  map := function(a, b)
+    return (a - 1) * n + b;
+  end;
+
+  for u in [1 .. m] do
+    for v in [1 .. n] do
+      next := next + 1;
+      edges[next] := [];
+      for w in OutNeighbours(D1)[u] do
+        for x in [1 .. n] do
+          AddSet(edges[next], map(w, x));
+        od;
+      od;
+      for x in OutNeighbours(D2)[v] do
+        for w in [1 .. m] do
+          AddSet(edges[next], map(w, x));
+        od;
+      od;
+    od;
+  od;
+  return DigraphNC(edges);
+end);
+
+InstallMethod(HomomorphicProduct, "for a digraph and digraph",
+[IsDigraph, IsDigraph],
+function(D1, D2)
+  local m, n, E1, E2, edges, next, map, u, v, w, x;
+
+  if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
+    ErrorNoReturn("HomomorphicProduct does not support multidigraphs,");
+  fi;
+
+  m := DigraphNrVertices(D1);
+  n := DigraphNrVertices(D2);
+
+  E1 := DigraphDual(D1);
+  E2 := DigraphDual(D2);
+
+  edges := EmptyPlist(m * n);
+  next  := 0;
+
+  map := function(a, b)
+    return (a - 1) * n + b;
+  end;
+
+  for u in [1 .. m] do
+    for v in [1 .. n] do
+      next := next + 1;
+      edges[next] := [];
+      for x in [1 .. n] do
+        AddSet(edges[next], map(u, x));
+      od;
+      for w in OutNeighbours(D1)[u] do
+        for x in OutNeighbours(E2)[v] do
+          AddSet(edges[next], map(w, x));
+        od;
+      od;
+    od;
+  od;
+  return DigraphNC(edges);
+end);
+
+InstallMethod(DIGRAPH_GraphProduct,
+"for a digraph, a digraph, a function and a function",
+[IsDigraph, IsDigraph, IsFunction],
+function(D1, D2, f)
+  local m, n, E1, E2, edges, next, u, v, w, x;
+
+  m := DigraphNrVertices(D1);
+  n := DigraphNrVertices(D2);
+
+  E1 := DigraphDual(D1);
+  E2 := DigraphDual(D2);
+
+  edges := EmptyPlist(m * n);
+  next  := 0;
+
+  return(f(m, n, E1, E2, edges, next));
+
+end);
+
+InstallMethod(LexicographicProduct, "for a digraph and digraph",
+[IsDigraph, IsDigraph],
+function(D1, D2)
+  local f, map;
+
+  if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
+    ErrorNoReturn("LexicographicProduct does not support multidigraphs,");
+  fi;
+
+  f := function(m, n, E1, E2, edges, next)
+    local map, u, v, w, x;
+    
+    map := function(a, b)
+      return (a - 1) * n + b;
+    end;
+
+    for u in [1 .. m] do
+      for v in [1 .. n] do
+        next := next + 1;
+        edges[next] := [];
+        for w in OutNeighbours(D1)[u] do
+          for x in [1 .. n] do
+            AddSet(edges[next], map(w, x));
+          od;
+        od;
+        for x in OutNeighbours(D2)[v] do
+          AddSet(edges[next], map(u, x));
+        od;
+      od;
+    od;
+    return DigraphNC(edges);
+  end;
+
+  return(DIGRAPH_GraphProduct(D1, D2, f));
+
+end);
+
 ###############################################################################
 # 4. Actions
 ###############################################################################
