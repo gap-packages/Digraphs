@@ -46,7 +46,7 @@ DeclareOperation("StrongProduct", [IsDigraph, IsDigraph]);
 DeclareOperation("CoNormalProduct", [IsDigraph, IsDigraph]);
 DeclareOperation("HomomorphicProduct", [IsDigraph, IsDigraph]);
 DeclareOperation("LexicographicProduct", [IsDigraph, IsDigraph]);
-DeclareOperation("DIGRAPH_GraphProduct", [IsDigraph, IsDigraph, IsFunction]);
+DeclareOperation("DIGRAPHS_GraphProduct", [IsDigraph, IsDigraph, IsFunction]);
 
 DeclareGlobalFunction("DIGRAPHS_CombinationOperProcessArgs");
 

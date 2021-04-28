@@ -768,8 +768,6 @@ function(D1, D2)
   return(DIGRAPH_GraphProduct(D1, D2, f));
 end);
 
-
-
 InstallMethod(LexicographicProduct, "for a digraph and digraph",
 [IsDigraph, IsDigraph],
 function(D1, D2)
@@ -806,7 +804,7 @@ function(D1, D2)
   return(DIGRAPH_GraphProduct(D1, D2, f));
 end);
 
-InstallMethod(DIGRAPH_GraphProduct,
+InstallMethod(DIGRAPHS_GraphProduct,
 "for a digraph, a digraph, a function and a function",
 [IsDigraph, IsDigraph, IsFunction],
 function(D1, D2, f)
@@ -823,6 +821,7 @@ function(D1, D2, f)
 
   return(f(m, n, E1, E2, edges, next));
 end);
+
 ###############################################################################
 # 4. Actions
 ###############################################################################
