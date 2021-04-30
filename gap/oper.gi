@@ -615,58 +615,45 @@ end);
 InstallMethod(ModularProduct, "for a digraph and digraph",
 [IsDigraph, IsDigraph],
 function(D1, D2)
-  local m, n, E1, E2, edges, next, map, u, v, w, x;
+  local edge_function;
 
   if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
     ErrorNoReturn("ModularProduct does not support multidigraphs,");
   fi;
 
-  m := DigraphNrVertices(D1);
-  n := DigraphNrVertices(D2);
-
-  E1 := DigraphDual(D1);
-  E2 := DigraphDual(D2);
-
-  edges := EmptyPlist(m * n);
-  next  := 0;
-
-  map := function(a, b)
-    return (a - 1) * n + b;
-  end;
-
-  for u in [1 .. m] do
-    for v in [1 .. n] do
-      next := next + 1;
-      edges[next] := [];
-      for w in OutNeighbours(D1)[u] do
-        for x in OutNeighbours(D2)[v] do
-          if (u = w) = (v = x) then
-            Add(edges[next], map(w, x));
-          fi;
-        od;
-      od;
-      for w in OutNeighbours(E1)[u] do
-        for x in OutNeighbours(E2)[v] do
-          if (u = w) = (v = x) then
-            Add(edges[next], map(w, x));
-          fi;
-        od;
+  edge_function := function(u, v, m, n, map)
+    local w, x, connections;
+    connections := [];
+    for w in OutNeighbours(D1)[u] do
+      for x in OutNeighbours(D2)[v] do
+        if (u = w) = (v = x) then
+          Add(connections, map(w, x));
+        fi;
       od;
     od;
-  od;
-  return DigraphNC(edges);
+    for w in OutNeighbours(DigraphDual(D1))[u] do
+      for x in OutNeighbours(DigraphDual(D2))[v] do
+        if (u = w) = (v = x) then
+          Add(connections, map(w, x));
+        fi;
+      od;
+    od;
+  return connections;
+  end;
+
+  return(DIGRAPHS_GraphProduct(D1, D2, edge_function));
 end);
 
 InstallMethod(StrongProduct, "for a digraph and digraph",
 [IsDigraph, IsDigraph],
 function(D1, D2)
-  local f;
+  local edge_function;
 
   if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
     ErrorNoReturn("StrongProduct does not support multidigraphs,");
   fi;
 
-  f := function(u, v, m, n, map)
+  edge_function := function(u, v, m, n, map)
     local w, x, connections;
       connections := [];
       for x in OutNeighbours(D2)[v] do
@@ -681,19 +668,19 @@ function(D1, D2)
     return connections;
   end;
 
-  return(DIGRAPHS_GraphProduct(D1, D2, f));
+  return(DIGRAPHS_GraphProduct(D1, D2, edge_function));
 end);
 
 InstallMethod(CoNormalProduct, "for a digraph and digraph",
 [IsDigraph, IsDigraph],
 function(D1, D2)
-  local f;
+  local edge_function;
 
   if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
     ErrorNoReturn("CoNormalProduct does not support multidigraphs,");
   fi;
 
-  f := function(u, v, m, n, map)
+  edge_function := function(u, v, m, n, map)
     local w, x, connections;
       connections := [];
       for w in OutNeighbours(D1)[u] do
@@ -709,19 +696,19 @@ function(D1, D2)
     return connections;
   end;
 
-  return(DIGRAPHS_GraphProduct(D1, D2, f));
+  return(DIGRAPHS_GraphProduct(D1, D2, edge_function));
 end);
 
 InstallMethod(HomomorphicProduct, "for a digraph and digraph",
 [IsDigraph, IsDigraph],
 function(D1, D2)
-  local f;
+  local edge_function;
 
   if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
     ErrorNoReturn("HomomorphicProduct does not support multidigraphs,");
   fi;
 
-  f := function(u, v, m, n, map)
+  edge_function := function(u, v, m, n, map)
     local w, x, connections;
       connections := [];
       for x in [1 .. n] do
@@ -735,19 +722,19 @@ function(D1, D2)
     return connections;
   end;
 
-  return(DIGRAPHS_GraphProduct(D1, D2, f));
+  return(DIGRAPHS_GraphProduct(D1, D2, edge_function));
 end);
 
 InstallMethod(LexicographicProduct, "for a digraph and digraph",
 [IsDigraph, IsDigraph],
 function(D1, D2)
-  local f;
+  local edge_function;
 
   if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
     ErrorNoReturn("LexicographicProduct does not support multidigraphs,");
   fi;
 
-  f := function(u, v, m, n, map)
+  edge_function := function(u, v, m, n, map)
     local w, x, connections;
       connections := [];
       for w in OutNeighbours(D1)[u] do
@@ -761,20 +748,19 @@ function(D1, D2)
     return connections;
   end;
 
-  return(DIGRAPHS_GraphProduct(D1, D2, f));
+  return(DIGRAPHS_GraphProduct(D1, D2, edge_function));
 end);
 
 InstallMethod(DIGRAPHS_GraphProduct,
 "for a digraph, a digraph, a function and a function",
 [IsDigraph, IsDigraph, IsFunction],
-function(D1, D2, f)
-  local m, n, edges, next, u, v, map;
+function(D1, D2, edge_function)
+  local m, n, edges, u, v, map;
 
   m := DigraphNrVertices(D1);
   n := DigraphNrVertices(D2);
 
   edges := EmptyPlist(m * n);
-  next  := 0;
 
   map := function(a, b)
     return (a - 1) * n + b;
@@ -782,8 +768,7 @@ function(D1, D2, f)
 
   for u in [1 .. m] do
     for v in [1 .. n] do
-      next := next + 1;
-      edges[next] := f(u, v, m, n, map);
+      edges[map(u, v)] := edge_function(u, v, m, n, map);
     od;
   od;
 
