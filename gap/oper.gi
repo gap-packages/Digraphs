@@ -755,7 +755,7 @@ InstallMethod(DIGRAPHS_GraphProduct,
 "for a digraph, a digraph, a function and a function",
 [IsDigraph, IsDigraph, IsFunction],
 function(D1, D2, edge_function)
-  local m, n, edges, u, v, map;
+  local m, n, edges, u, v, map, nextEdge;
 
   m := DigraphNrVertices(D1);
   n := DigraphNrVertices(D2);
@@ -763,7 +763,7 @@ function(D1, D2, edge_function)
   edges := EmptyPlist(m * n);
 
   map := function(a, b)
-    return (a - 1) * n + b;
+    return (b - 1) * m + a;
   end;
 
   for u in [1 .. m] do
@@ -772,7 +772,7 @@ function(D1, D2, edge_function)
     od;
   od;
 
-  return DigraphNC(edges);
+  return Digraph(edges);
 end);
 
 ###############################################################################
