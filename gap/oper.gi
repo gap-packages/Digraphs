@@ -763,7 +763,7 @@ function(D1, D2, edge_function)
   edges := EmptyPlist(m * n);
 
   map := function(a, b)
-    return (b - 1) * m + a;
+    return (a - 1) * n + b;
   end;
 
   for u in [1 .. m] do
