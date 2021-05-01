@@ -11,7 +11,7 @@ dnl ##
 AC_PREREQ([2.68])
 AC_INIT([digraphs], m4_esyscmd([tr -d '\n' < .VERSION]))
 AC_CONFIG_SRCDIR([src/digraphs.c])
-AC_CONFIG_HEADER([src/_pkgconfig.h:cnf/pkgconfig.h.in])
+AC_CONFIG_HEADERS([src/_pkgconfig.h:cnf/pkgconfig.h.in])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([cnf])
 
@@ -114,8 +114,8 @@ AS_IF([test "x$enable_compile_warnings" != "xno"],
 AX_CHECK_PLANARITY()
 
 if test "x$with_external_planarity" = xno ; then
-  AC_CONFIG_SUBDIRS([extern/edge-addition-planarity-suite-Version_3.0.0.5])
-  PLANARITY_SUITE_DIR=extern/edge-addition-planarity-suite-Version_3.0.0.5
+  AC_CONFIG_SUBDIRS([extern/edge-addition-planarity-suite-Version_3.0.1.0])
+  PLANARITY_SUITE_DIR=extern/edge-addition-planarity-suite-Version_3.0.1.0
   AC_SUBST(PLANARITY_SUITE_DIR)
 fi
 
