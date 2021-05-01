@@ -17,7 +17,7 @@ gap> DIGRAPHS_StartTest();
 gap> DigraphFromGraph6String("?");
 <immutable empty digraph with 0 vertices>
 gap> DigraphFromGraph6String("E?A?");
-<immutable digraph with 6 vertices, 2 edges>
+<immutable symmetric digraph with 6 vertices, 2 edges>
 gap> DigraphFromGraph6String("@");
 <immutable empty digraph with 1 vertex>
 gap> gr := Digraph(300, [1, 2], [2, 1]);
@@ -30,18 +30,18 @@ gap> gr := Digraph([[2], [1, 4], [5], [2], [3]]);
 gap> str := Graph6String(gr);
 "DaG"
 gap> DigraphFromGraph6String(str);
-<immutable digraph with 5 vertices, 6 edges>
+<immutable symmetric digraph with 5 vertices, 6 edges>
 gap>  l := ["BW", "C]", "DQw", "ECO_", "FCZUo", "GCZenS", "HCQTndn",
 > "H?qcyxf"];;
 gap> List(l, x -> DigraphFromGraph6String(x));
-[ <immutable digraph with 3 vertices, 4 edges>, 
-  <immutable digraph with 4 vertices, 8 edges>, 
-  <immutable digraph with 5 vertices, 10 edges>, 
-  <immutable digraph with 6 vertices, 6 edges>, 
-  <immutable digraph with 7 vertices, 20 edges>, 
-  <immutable digraph with 8 vertices, 30 edges>, 
-  <immutable digraph with 9 vertices, 38 edges>, 
-  <immutable digraph with 9 vertices, 34 edges> ]
+[ <immutable symmetric digraph with 3 vertices, 4 edges>, 
+  <immutable symmetric digraph with 4 vertices, 8 edges>, 
+  <immutable symmetric digraph with 5 vertices, 10 edges>, 
+  <immutable symmetric digraph with 6 vertices, 6 edges>, 
+  <immutable symmetric digraph with 7 vertices, 20 edges>, 
+  <immutable symmetric digraph with 8 vertices, 30 edges>, 
+  <immutable symmetric digraph with 9 vertices, 38 edges>, 
+  <immutable symmetric digraph with 9 vertices, 34 edges> ]
 gap> DigraphFromGraph6String(ListWithIdenticalEntries(500, '~'));
 Error, the 2nd argument <s> is not a valid graph6 string,
 gap> D := DigraphFromGraph6String(IsMutableDigraph, "Dhc");
@@ -56,7 +56,7 @@ gap> list2 := ReadDigraphs(str, DigraphFromGraph6String);;
 gap> list = list2;
 true
 gap> gr := ReadDigraphs(str, 10);
-<immutable digraph with 5 vertices, 8 edges>
+<immutable symmetric digraph with 5 vertices, 8 edges>
 gap> list = gr;
 false
 gap> list[10] = gr;
@@ -85,34 +85,35 @@ gap> DigraphFromSparse6String(":@");
 <immutable empty digraph with 1 vertex>
 gap> DigraphFromSparse6String(Concatenation(":[___dCfEcdFjCIideLhIfJ",
 >                                           "kLgkQge`RSbPTaOTbMNaS`QY"));
-<immutable digraph with 28 vertices, 84 edges>
+<immutable symmetric digraph with 28 vertices, 84 edges>
 gap> DigraphFromSparse6String(":I`ACWqHKhhccTF");
-<immutable digraph with 10 vertices, 30 edges>
+<immutable symmetric digraph with 10 vertices, 30 edges>
 gap> DigraphFromSparse6String(":U___gFecGdHcEdFcFdE`GHbILaJKbNaM`RS");
-<immutable digraph with 22 vertices, 66 edges>
+<immutable symmetric digraph with 22 vertices, 66 edges>
 gap> DigraphFromSparse6String(":U___fEcdcdIeHfGcFdE`GHbILaJKbNaM`RS");
-<immutable digraph with 22 vertices, 66 edges>
+<immutable symmetric digraph with 22 vertices, 66 edges>
 gap> DigraphFromSparse6String(":U___fEcdGcdeJfIcFdEbLNaKM`H`GbIRaJQ");
-<immutable digraph with 22 vertices, 66 edges>
+<immutable symmetric digraph with 22 vertices, 66 edges>
 gap> gr := Digraph([[2], [1, 4], [5], [2], [3]]);
 <immutable digraph with 5 vertices, 6 edges>
 gap> str := Sparse6String(gr);
 ":Dapj"
 gap> DigraphFromSparse6String(str);
-<immutable digraph with 5 vertices, 6 edges>
+<immutable symmetric digraph with 5 vertices, 6 edges>
 gap> gr := Digraph(231, [1, 1, 3, 4], [3, 4, 1, 1]);
 <immutable digraph with 231 vertices, 4 edges>
 gap> str := Sparse6String(gr);
 ":~?Bf_O?_F"
 gap> DigraphFromSparse6String(str);
-<immutable digraph with 231 vertices, 4 edges>
-gap> gr := Digraph(rec(DigraphNrVertices := 2 ^ 17, DigraphSource := [1, 1, 3, 4, 10, 100],
-> DigraphRange := [3, 4, 1, 1, 100, 10]));
+<immutable symmetric digraph with 231 vertices, 4 edges>
+gap> gr := Digraph(rec(DigraphNrVertices := 2 ^ 17,
+>                      DigraphSource     := [1, 1, 3, 4, 10, 100],
+>                      DigraphRange      := [3, 4, 1, 1, 100, 10]));
 <immutable digraph with 131072 vertices, 6 edges>
 gap> str := Sparse6String(gr);
 ":~_??_?A???_??_@b??H"
 gap> DigraphFromSparse6String(str);
-<immutable digraph with 131072 vertices, 6 edges>
+<immutable symmetric digraph with 131072 vertices, 6 edges>
 gap> DigraphFromSparse6String(IsMutableDigraph, ":Sa?dBDf?aiH`El@AjK_@gqBIp");
 <mutable digraph with 20 vertices, 35 edges>
 
@@ -140,14 +141,16 @@ gap> str := DiSparse6String(gr);
 ".CgXoHe@J"
 gap> DigraphFromDiSparse6String(str) = gr;
 true
-gap> gr := Digraph(rec(DigraphNrVertices := 1617, DigraphSource := [1 .. 100],
-> DigraphRange := Concatenation([1 .. 50], [1 .. 50] * 0 + 51)));
+gap> gr := Digraph(rec(DigraphNrVertices := 1617,
+>        DigraphSource     := [1 .. 100],
+>        DigraphRange      := Concatenation([1 .. 50], [1 .. 50] * 0 + 51)));
 <immutable digraph with 1617 vertices, 100 edges>
 gap> str := DiSparse6String(gr);;
 gap> DigraphFromDiSparse6String(str) = gr;
 true
-gap> gr := Digraph(rec(DigraphNrVertices := 2 ^ 17, DigraphSource := [1 .. 100],
-> DigraphRange := Concatenation([50 .. 98], [-1050 .. -1000] * -1)));
+gap> gr := Digraph(rec(DigraphNrVertices := 2 ^ 17,
+>        DigraphSource := [1 .. 100],
+>        DigraphRange  := Concatenation([50 .. 98], [-1050 .. -1000] * -1)));
 <immutable digraph with 131072 vertices, 100 edges>
 gap> str := DiSparse6String(gr);;
 gap> DigraphFromDiSparse6String(str) = gr;
@@ -158,8 +161,9 @@ gap> str := DiSparse6String(gr);
 ".CgXo?eWCn"
 gap> gr = DigraphFromDiSparse6String(str);
 true
-gap> gr := Digraph(rec(DigraphNrVertices := 7890, DigraphSource := [1 .. 100] * 0 + 1000,
-> DigraphRange := [1 .. 100] * 0 + 2000));
+gap> gr := Digraph(rec(DigraphNrVertices := 7890,
+>                      DigraphSource     := [1 .. 100] * 0 + 1000,
+>                      DigraphRange      := [1 .. 100] * 0 + 2000));
 <immutable multidigraph with 7890 vertices, 100 edges>
 gap> str := DiSparse6String(gr);;
 gap> gr = DigraphFromDiSparse6String(str);
@@ -186,8 +190,9 @@ gap> ReadDigraphs(filename);
   <immutable digraph with 1000 vertices, 1000 edges>, 
   <immutable multidigraph with 5 vertices, 13 edges> ]
 gap> gr[1] := Digraph([[5], [1, 2, 5], [1], [2], [4]]);;
-gap> gr[2] := Digraph(rec(DigraphNrVertices := 105, DigraphSource := [1 .. 100],
-> DigraphRange := [1 .. 100] * 0 + 52));;
+gap> gr[2] := Digraph(rec(DigraphNrVertices := 105,
+>                         DigraphSource     := [1 .. 100],
+>                         DigraphRange      := [1 .. 100] * 0 + 52));;
 gap> gr[3] := EmptyDigraph(0);;
 gap> gr[4] := Digraph([[6, 7], [6, 9], [1, 3, 4, 5, 8, 9],
 > [1, 2, 3, 4, 5, 6, 7, 10], [1, 5, 6, 7, 10], [2, 4, 5, 9, 10],
@@ -208,8 +213,9 @@ IO_OK
 gap> gr[1] := Digraph([[5], [1, 2, 5], [1], [2], [4]]);;
 gap> DigraphGroup(gr[1]);
 Group(())
-gap> gr[2] := Digraph(rec(DigraphNrVertices := 105, DigraphSource := [1 .. 100],
-> DigraphRange := [1 .. 100] * 0 + 52));;
+gap> gr[2] := Digraph(rec(DigraphNrVertices := 105,
+>                         DigraphSource     := [1 .. 100],
+>                         DigraphRange      := [1 .. 100] * 0 + 52));;
 gap> gr[3] := EmptyDigraph(0);;
 gap> gr[4] := Digraph([[6, 7], [6, 9], [1, 3, 4, 5, 8, 9],
 > [1, 2, 3, 4, 5, 6, 7, 10], [1, 5, 6, 7, 10], [2, 4, 5, 9, 10],
@@ -288,10 +294,10 @@ gap> IO_Close(f);;
 gap> f := DigraphFile(filename, "r");;
 gap> ReadDigraphs(f);
 [ <immutable empty digraph with 1 vertex>, 
-  <immutable digraph with 2 vertices, 2 edges>, 
-  <immutable digraph with 3 vertices, 6 edges>, 
-  <immutable digraph with 4 vertices, 12 edges>, 
-  <immutable digraph with 5 vertices, 20 edges> ]
+  <immutable symmetric digraph with 2 vertices, 2 edges>, 
+  <immutable symmetric digraph with 3 vertices, 6 edges>, 
+  <immutable symmetric digraph with 4 vertices, 12 edges>, 
+  <immutable symmetric digraph with 5 vertices, 20 edges> ]
 gap> IO_Close(f);;
 gap> f := DigraphFile(filename, "a");;
 gap> WriteDigraphs(f, CycleDigraph(5));
@@ -303,11 +309,11 @@ gap> IO_Close(f);;
 gap> f := DigraphFile(filename, "r");;
 gap> ReadDigraphs(f);
 [ <immutable empty digraph with 1 vertex>, 
-  <immutable digraph with 2 vertices, 2 edges>, 
-  <immutable digraph with 3 vertices, 6 edges>, 
-  <immutable digraph with 4 vertices, 12 edges>, 
-  <immutable digraph with 5 vertices, 20 edges>, 
-  <immutable digraph with 20 vertices, 180 edges> ]
+  <immutable symmetric digraph with 2 vertices, 2 edges>, 
+  <immutable symmetric digraph with 3 vertices, 6 edges>, 
+  <immutable symmetric digraph with 4 vertices, 12 edges>, 
+  <immutable symmetric digraph with 5 vertices, 20 edges>, 
+  <immutable symmetric digraph with 20 vertices, 180 edges> ]
 gap> newfilename := Concatenation(DIGRAPHS_Dir(), "/tst/out/hello2.g6");;
 gap> IO_rename(filename, newfilename);
 true
@@ -318,7 +324,7 @@ gap> it := IteratorFromDigraphFile(newfilename);
 gap> NextIterator(it);
 <immutable empty digraph with 1 vertex>
 gap> NextIterator(it);
-<immutable digraph with 2 vertices, 2 edges>
+<immutable symmetric digraph with 2 vertices, 2 edges>
 gap> for x in it do od;
 gap> it := IteratorFromDigraphFile(newfilename, DigraphFromGraph6String);
 <iterator>
@@ -327,15 +333,15 @@ gap> NextIterator(it);
 gap> IsDoneIterator(it);
 false
 gap> NextIterator(it);
-<immutable digraph with 2 vertices, 2 edges>
+<immutable symmetric digraph with 2 vertices, 2 edges>
 gap> NextIterator(it);
-<immutable digraph with 3 vertices, 6 edges>
+<immutable symmetric digraph with 3 vertices, 6 edges>
 gap> NextIterator(it);
-<immutable digraph with 4 vertices, 12 edges>
+<immutable symmetric digraph with 4 vertices, 12 edges>
 gap> NextIterator(it);
-<immutable digraph with 5 vertices, 20 edges>
+<immutable symmetric digraph with 5 vertices, 20 edges>
 gap> NextIterator(it);
-<immutable digraph with 20 vertices, 180 edges>
+<immutable symmetric digraph with 20 vertices, 180 edges>
 gap> NextIterator(it);
 IO_Nothing
 gap> NextIterator(it);
@@ -520,7 +526,7 @@ gap> Sparse6String(gr);
 
 #  DigraphFromSparse6String: an unusual but valid case
 gap> DigraphFromSparse6String(":TdBkJ`Kq?x");
-<immutable digraph with 21 vertices, 10 edges>
+<immutable symmetric digraph with 21 vertices, 10 edges>
 gap> Sparse6String(last);
 ":TdBkJ`Kq?"
 
