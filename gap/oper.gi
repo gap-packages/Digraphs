@@ -638,7 +638,7 @@ function(D1, D2)
         fi;
       od;
     od;
-  return connections;
+    return connections;
   end;
 
   return(DIGRAPHS_GraphProduct(D1, D2, edge_function));
@@ -755,7 +755,7 @@ InstallMethod(DIGRAPHS_GraphProduct,
 "for a digraph, a digraph, a function and a function",
 [IsDigraph, IsDigraph, IsFunction],
 function(D1, D2, edge_function)
-  local m, n, edges, u, v, map, nextEdge;
+  local m, n, edges, u, v, map;
 
   m := DigraphNrVertices(D1);
   n := DigraphNrVertices(D2);
