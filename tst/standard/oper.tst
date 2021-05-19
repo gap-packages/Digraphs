@@ -2293,6 +2293,10 @@ gap> OutNeighbours(last);
   [ 21, 24, 31, 34, 36, 39, 2, 3, 7, 8, 12, 13, 17, 18, 27, 28, 42, 43, 50 ] ]
 
 #StrongProduct
+gap> D := Digraph([[2, 2], [1, 1, 3], [2]]);
+<immutable multidigraph with 3 vertices, 6 edges>
+gap> StrongProduct(D, D);
+Error, StrongProduct does not support multidigraphs,
 gap> DigraphSymmetricClosure(ChainDigraph(6));
 <immutable symmetric digraph with 6 vertices, 10 edges>
 gap> StrongProduct(DigraphSymmetricClosure(ChainDigraph(10)), last);
@@ -2311,6 +2315,10 @@ gap> OutNeighbours(last);
   [ 5, 7, 8, 9, 11 ] ]
 
 #CoNormalProduct
+gap> D := Digraph([[2, 4, 4], [1, 3], [2, 4], [1, 1,  3]]);
+<immutable multidigraph with 4 vertices, 10 edges>
+gap> CoNormalProduct(D, D);
+Error, CoNormalProduct does not support multidigraphs,
 gap> CoNormalProduct(NullDigraph(10), CompleteDigraph(10));
 <immutable digraph with 100 vertices, 9000 edges>
 gap> CoNormalProduct(PetersenGraph(), PetersenGraph());
@@ -2321,6 +2329,10 @@ gap> CoNormalProduct(last, last);
 <immutable digraph with 9 vertices, 72 edges>
 
 #HomomorphicProduct
+gap> D := Digraph([[2, 3], [1, 3, 3], [1, 2, 2]]);
+<immutable multidigraph with 3 vertices, 8 edges>
+gap> HomomorphicProduct(D, D);                    
+Error, HomomorphicProduct does not support multidigraphs,
 gap> DigraphSymmetricClosure(CycleDigraph(6)); 
 <immutable symmetric digraph with 6 vertices, 12 edges>
 gap> HomomorphicProduct(PetersenGraph(), last);
@@ -2374,6 +2386,10 @@ gap> OutNeighbours(last);
   [ 73, 74, 75, 76, 77, 78, 79, 80 ], [ 73, 74, 75, 76, 77, 78, 79, 80 ] ]
 
 #LexicographicProduct
+gap> D := Digraph([[2, 2, 2], [1, 1, 1]]);
+<immutable multidigraph with 2 vertices, 6 edges>
+gap> LexicographicProduct(D, D);
+Error, LexicographicProduct does not support multidigraphs,
 gap> StrongProduct(NullDigraph(0), CompleteDigraph(3));
 <immutable empty digraph with 0 vertices>
 gap> D1 := Digraph([[2], [1, 3, 4], [2, 5], [2, 5], [3, 4]]);
