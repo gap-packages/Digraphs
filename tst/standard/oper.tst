@@ -2315,7 +2315,7 @@ gap> OutNeighbours(last);
   [ 5, 7, 8, 9, 11 ] ]
 
 #CoNormalProduct
-gap> D := Digraph([[2, 4, 4], [1, 3], [2, 4], [1, 1,  3]]);
+gap> D := Digraph([[2, 4, 4], [1, 3], [2, 4], [1, 1, 3]]);
 <immutable multidigraph with 4 vertices, 10 edges>
 gap> CoNormalProduct(D, D);
 Error, CoNormalProduct does not support multidigraphs,
