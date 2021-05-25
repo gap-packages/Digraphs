@@ -9,10 +9,11 @@ on:
 
 env:
   DIGRAPHS_LIB: digraphs-lib-0.6
+  CHERE_INVOKING: 1
 
 jobs:
-  test-unix:
-    name: "${{ matrix.os }}${{ matrix.ABI }} / GAP ${{ matrix.gap-branch }}"
+  test:
+    name: "${{ matrix.os }}${{ matrix.extra }}${{ matrix.ABI }} / GAP ${{ matrix.gap-branch }}"
     runs-on: "${{ matrix.os }}-latest"
     # Don't run this twice for PRs from branches in the same repository
     if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
@@ -38,21 +39,28 @@ jobs:
           - gap-branch: master
             os: ubuntu
             ABI: 32
+          - gap-branch: master
+            pkgs-to-clone: "NautyTracesInterface"
+            os: windows
+            extra: "-cygwin"
 
     steps:
       - uses: actions/checkout@v2
       - name: "Install dependencies"
         if: ${{ runner.os == 'macOS' }}
         run: brew install automake
+      - name: "Install Cygwin"
+        if: ${{ runner.os == 'Windows' }}
+        uses: gap-actions/setup-cygwin@master
       - name: "Install GAP and clone/compile necessary packages"
-        uses: gap-actions/setup-gap@v2
+        uses: gap-actions/setup-gap@v2${{ matrix.extra }}
         with:
           GAP_PKGS_TO_CLONE: "${{ matrix.pkgs-to-clone }}"
           GAP_PKGS_TO_BUILD: "io orb profiling grape NautyTracesInterface datastructures"
           GAPBRANCH: ${{ matrix.gap-branch }}
           ABI: ${{ matrix.ABI }}
       - name: "Build Digraphs"
-        uses: gap-actions/build-pkg@v1
+        uses: gap-actions/build-pkg@v1${{ matrix.extra }}
         with:
           ABI: ${{ matrix.ABI }}
       - name: "Install digraphs-lib"
@@ -61,46 +69,25 @@ jobs:
           tar xf "${{ env.DIGRAPHS_LIB }}.tar.gz"
       - name: "Run DigraphsTestInstall"
         if: ${{ always() }}
-        uses: gap-actions/run-pkg-tests@v2
+        uses: gap-actions/run-pkg-tests@v2${{ matrix.extra }}
         with:
           GAP_TESTFILE: "tst/github_actions/install.g"
       - name: "Run DigraphsTestStandard"
         if: ${{ always() }}
-        uses: gap-actions/run-pkg-tests@v2
+        uses: gap-actions/run-pkg-tests@v2${{ matrix.extra }}
         with:
           GAP_TESTFILE: "tst/github_actions/standard.g"
       - name: "Run DigraphsTestManualExamples"
         if: ${{ always() }}
-        uses: gap-actions/run-pkg-tests@v2
+        uses: gap-actions/run-pkg-tests@v2${{ matrix.extra }}
         with:
           GAP_TESTFILE: "tst/github_actions/examples.g"
       - name: "Run DigraphsTestExtreme"
         if: ${{ always() }}
-        uses: gap-actions/run-pkg-tests@v2
+        uses: gap-actions/run-pkg-tests@v2${{ matrix.extra }}
         with:
           GAP_TESTFILE: "tst/github_actions/extreme.g"
-      - uses: gap-actions/process-coverage@v2
+      - uses: gap-actions/process-coverage@v2${{ matrix.extra }}
         if: ${{ always() }}
       - uses: codecov/codecov-action@v1
         if: ${{ always() }}
-
-  test-cygwin:
-    name: "cygwin / GAP master"
-    runs-on: windows-latest
-    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
-    env:
-      CHERE_INVOKING: 1
-    steps:
-      - uses: actions/checkout@v2
-      - uses: gap-actions/setup-cygwin@master
-      - uses: wilfwilson/setup-gap@cygwin
-        with:
-          GAP_PKGS_TO_BUILD: "io orb profiling grape datastructures"
-      - uses: gap-actions/build-pkg@ww/cygwin
-      - name: "Install digraphs-lib"
-        run: |
-          curl --retry 5 -L -O "https://digraphs.github.io/Digraphs/${{ env.DIGRAPHS_LIB }}.tar.gz"
-          tar xf "${{ env.DIGRAPHS_LIB }}.tar.gz"
-      - uses: wilfwilson/run-pkg-tests@cygwin
-      #- uses: gap-actions/process-coverage@v2
-      #- uses: codecov/codecov-action@v1
