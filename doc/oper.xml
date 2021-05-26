@@ -1996,7 +1996,7 @@ gap> ModularProduct(NullDigraph(0), CompleteDigraph(10));
     </Item>
   </List>
 
-  The SPD of two paths of lengths <C>m</C> and <C>n</C> is also the King's Graph
+  The SPD of two paths of lengths <C>m</C> and <C>n</C> is also the king's graph
   for an <C>m</C> by <C>n</C> board. 
 
   <Example><![CDATA[
