@@ -98,6 +98,30 @@
     <#Include Label="StarDigraph">
     <#Include Label="TadpoleDigraph">
     <#Include Label="BookDigraph">
+    <#Include Label="AndrasfaiGraph">
+    <#Include Label="BinomialTreeGraph">
+    <#Include Label="BondyGraph">
+    <#Include Label="CirculantGraph">
+    <#Include Label="CycleGraph">
+    <#Include Label="GearGraph">
+    <#Include Label="HalvedCubeGraph">
+    <#Include Label="HanoiGraph">
+    <#Include Label="HelmGraph">
+    <#Include Label="HypercubeGraph">
+    <#Include Label="KneserGraph">
+    <#Include Label="KellerGraph">
+    <#Include Label="LindgrenSousselierGraph">
+    <#Include Label="MobiusLadderGraph">
+    <#Include Label="MycielskiGraph">
+    <#Include Label="OddGraph">
+    <#Include Label="PathGraph">
+    <#Include Label="PermutationStarGraph">
+    <#Include Label="PrismGraph">
+    <#Include Label="StackedPrismGraph">
+    <#Include Label="WalshHadamardGraph">
+    <#Include Label="WebGraph">
+    <#Include Label="WindmillGraph">
+    <#Include Label="WheelGraph">
   </Section>
 
 </Chapter>
