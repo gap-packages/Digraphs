@@ -96,7 +96,7 @@
     <#Include Label="StarDigraph">
     <#Include Label="RooksGraph">
     <#Include Label="KnightsGraph">
-    <#Include Lable="QueensGraph">
+    <#Include Label="QueensGraph">
     <#Include Label="HaarGraph">
     <#Include Label="BananaTree">
     <#Include Label="TadpoleDigraph">
