@@ -2094,7 +2094,7 @@ gap> HomomorphicProduct(D1, D2);
   <Description>
   If <A>D1</A> and <A>D2</A> are symmetric digraphs without multiple edges,
   then <C>LexicographicProduct</C> calculates the <E>lexicographic product digraph</E>
-  (<C>LPD</C>) of <A>D1</A>and <A>D2</A>.
+  (<C>LPD</C>) of <A>D1</A> and <A>D2</A>.
 
   <C>LPD</C> has vertex set <C>V1 x V2</C> where <C>V1</C> is the vertex set of
   <A>D1</A> and <C>V2</C> is the vertex set of <A>D2</A> (a vertex
