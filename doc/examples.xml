@@ -630,12 +630,13 @@ true]]></Example>
     If the optional first argument <A>filt</A> is not present, then <Ref
     Filt="IsImmutableDigraph"/> is used by default.<P/>
 
-    See <URL>https://mathworld.wolfram.com/HalvedCubeGraph.html</URL> for further
-    details. 
+    See <URL>https://mathworld.wolfram.com/HalvedCubeGraph.html</URL> for
+    further details. 
 
 <Example><![CDATA[
 gap> D := HalvedCubeGraph(3);
-<immutable Hamiltonian connected symmetric digraph with 4 vertices, 12 edges>
+<immutable Hamiltonian connected symmetric digraph with 4 vertices, 12\
+ edges>
 gap> IsDistanceRegularDigraph(D);
 true
 gap> IsHamiltonianDigraph(D);
@@ -671,7 +672,8 @@ true]]></Example>
 
 <Example><![CDATA[
 gap> D := WheelGraph(8);
-<immutable symmetric digraph with 8 vertices, 28 edges>
+<immutable Hamiltonian connected symmetric digraph with 8 vertices, 28\
+ edges>
 gap> ChromaticNumber(D);
 4
 gap> IsHamiltonianDigraph(D);
@@ -748,7 +750,8 @@ gap> TriangularGridGraph(IsMutable, 3, 3);
 
 <Example><![CDATA[
 gap> D := HypercubeGraph(5);
-<immutable Hamiltonian connected bipartite symmetric digraph with bicomponent sizes 16 and 16>
+<immutable Hamiltonian connected bipartite symmetric digraph with bico\
+mponent sizes 16 and 16>
 ]]></Example>
   </Description>
 </ManSection>
@@ -862,11 +865,13 @@ true]]></Example>
 
 <Example><![CDATA[
 gap> D := KneserGraph(7, 3);
-<immutable edge- and vertex-transitive symmetric digraph with 35 vertices, 140 edges>
+<immutable edge- and vertex-transitive symmetric digraph with 35 verti\
+ces, 140 edges>
 gap> IsRegularDigraph(D);
 true
 gap> ChromaticNumber(D);
-3gap> CliqueNumber(D);
+3
+gap> CliqueNumber(D);
 2]]></Example>
   </Description>
 </ManSection>
@@ -947,7 +952,8 @@ gap> KnightsGraph(IsMutable, 3, 9);
 
 <Example><![CDATA[
 gap> D := MycielskiGraph(4);
-<immutable Hamiltonian connected symmetric digraph with 11 vertices, 40 edges>
+<immutable Hamiltonian connected symmetric digraph with 11 vertices, 4\
+0 edges>
 gap> ChromaticNumber(D);
 4
 gap> CliqueNumber(D);
@@ -987,7 +993,8 @@ gap> CliqueNumber(D);
 
 <Example><![CDATA[
 gap> D := OddGraph(4);
-<immutable edge- and vertex-transitive symmetric digraph with 35 vertices, 140 edges>
+<immutable edge- and vertex-transitive symmetric digraph with 35 verti\
+ces, 140 edges>
 gap> IsIsomorphicDigraph(D, KneserGraph(7, 3));
 true
 gap> ChromaticNumber(D);
@@ -1072,7 +1079,8 @@ ent sizes 5 and 5>
 
 <Example><![CDATA[
 gap> D := AndrasfaiGraph(4);
-<immutable Hamiltonian biconnected vertex-transitive symmetric digraph with 11 vertices, 44 edges>
+<immutable Hamiltonian biconnected vertex-transitive symmetric digraph\
+ with 11 vertices, 44 edges>
 gap> IsBiconnectedDigraph(D);
 true
 gap> IsIsomorphicDigraph(D, CirculantGraph(11, [1, 4, 7, 10]));
@@ -1115,7 +1123,8 @@ true]]></Example>
 
 <Example><![CDATA[
 gap> D := CirculantGraph(6, [1, 2, 3]);
-<immutable Hamiltonian biconnected vertex-transitive symmetric digraph with 6 vertices, 30 edges>
+<immutable Hamiltonian biconnected vertex-transitive symmetric digraph\
+ with 6 vertices, 30 edges>
 gap> IsIsomorphicDigraph(D, CompleteDigraph(6));
 true]]></Example>
   </Description>
@@ -1205,10 +1214,11 @@ gap> D := BananaTree(3, 4);
     details. 
 
 <Example><![CDATA[
-gap> D := CirculantGraph(6, [1, 2, 3]);
-<immutable Hamiltonian biconnected vertex-transitive symmetric digraph with 6 vertices, 30 edges>
-gap> IsIsomorphicDigraph(D, CompleteDigraph(6));
-true]]></Example>
+gap> D := KellerGraph(3);
+<immutable Hamiltonian connected symmetric digraph with 64 vertices, 2\
+176 edges>
+gap> ChromaticNumber(D);
+8]]></Example>
   </Description>
 </ManSection>
 <#/GAPDoc>
@@ -1246,7 +1256,8 @@ true]]></Example>
 
 <Example><![CDATA[
 gap> D := PermutationStarGraph(6, 2);
-<immutable vertex-transitive symmetric digraph with 30 vertices, 150 edges>
+<immutable vertex-transitive symmetric digraph with 30 vertices, 150 e\
+dges>
 gap> DigraphDiameter(D);
 3]]></Example>
   </Description>
@@ -1452,7 +1463,8 @@ gap> D := WebGraph(5);
 
 <Example><![CDATA[
 gap> D := HanoiGraph(5);
-<immutable Hamiltonian connected symmetric digraph with 243 vertices, 726 edges>
+<immutable Hamiltonian connected symmetric digraph with 243 vertices, \
+726 edges>
 gap> IsPlanarDigraph(D);
 true]]></Example>
   </Description>
@@ -1487,7 +1499,7 @@ gap> D := BondyGraph(1);
 <immutable symmetric digraph with 22 vertices, 66 edges>
 gap> IsHamiltonianDigraph(D);
 false
-gap> G := List([1 .. 22], x -> DigraphRemoveVertex(D, x));
+gap> G := List([1 .. 22], x -> DigraphRemoveVertex(D, x));;
 gap> ForAll(G, x -> IsHamiltonianDigraph(x));
 true]]></Example>
   </Description>
@@ -1508,6 +1520,9 @@ true]]></Example>
     example, the vertex <M>011</M> has parent <M>010</M>, and the vertex
     <M>010</M> has parent <M>000</M>.<P/>
 
+    The Binomial Tree graph is an undirected tree, and is symmetric as a
+    digraph.<P/>
+
     If the optional first argument <A>filt</A> is present, then this should
     specify the category or representation the digraph being created will
     belong to. For example, if <A>filt</A> is <Ref Filt="IsMutableDigraph"/>,
@@ -1521,7 +1536,7 @@ true]]></Example>
 
 <Example><![CDATA[
 gap> D := BinomialTreeGraph(9);
-<immutable acyclic digraph with 9 vertices, 16 edges>]]></Example>
+<immutable undirected tree digraph with 9 vertices>]]></Example>
   </Description>
 </ManSection>
 <#/GAPDoc>
@@ -1564,7 +1579,8 @@ gap> D := CycleGraph(7);
     If <A>n</A> is a non-negative integer then this operation returns the
     <M>n</M>th <E>Path graph</E>, consisting of the path on <M>n</M> vertices.
     This is similar to the Chain digraph but with symmetric edges. The Path 
-    graph has <M>n</M> vertices and <M>n-1</M> edges. The graph is acyclic.<P/>
+    graph has <M>n</M> vertices and <M>n-1</M> edges. The graph is an 
+    undirected tree.<P/>
 
     If the optional first argument <A>filt</A> is present, then this should
     specify the category or representation the digraph being created will
@@ -1579,7 +1595,7 @@ gap> D := CycleGraph(7);
 
 <Example><![CDATA[
 gap> D := PathGraph(12);
-<immutable acyclic digraph with 12 vertices, 22 edges>]]></Example>
+<immutable undirected tree digraph with 12 vertices>]]></Example>
   </Description>
 </ManSection>
 <#/GAPDoc>

@@ -531,6 +531,13 @@ gap> DigraphEdges(D);
   [ 5, 9 ], [ 6, 1 ], [ 6, 7 ], [ 6, 8 ], [ 7, 3 ], [ 7, 5 ], [ 7, 6 ], 
   [ 8, 2 ], [ 8, 4 ], [ 8, 6 ], [ 9, 1 ], [ 9, 4 ], [ 9, 5 ], [ 10, 1 ], 
   [ 10, 2 ], [ 10, 3 ] ]
+gap> D := KneserGraph(6, 4);
+<immutable empty digraph with 15 vertices>
+gap> ChromaticNumber(D);
+1
+gap> D := KneserGraph(10, 2);
+<immutable Hamiltonian connected edge- and vertex-transitive symmetric digraph\
+ with 45 vertices, 1260 edges>
 
 # MycielskiGraph
 gap> D := MycielskiGraph(2);
@@ -636,7 +643,7 @@ Error, no 1st choice method found for `WindmillGraph' on 2 arguments
 
 # PathGraph
 gap> D := PathGraph(4);
-<immutable acyclic digraph with 4 vertices, 6 edges>
+<immutable undirected tree digraph with 4 vertices>
 gap> IsIsomorphicDigraph(D, DigraphSymmetricClosure(ChainDigraph(4)));
 true
 gap> PathGraph(1);
@@ -691,9 +698,9 @@ Error, no 1st choice method found for `HanoiGraph' on 1 arguments
 
 # BinomialTreeGraph
 gap> D := BinomialTreeGraph(6);
-<immutable acyclic digraph with 6 vertices, 10 edges>
+<immutable undirected tree digraph with 6 vertices>
 gap> D := BinomialTreeGraph(16);
-<immutable acyclic digraph with 16 vertices, 30 edges>
+<immutable undirected tree digraph with 16 vertices>
 gap> DigraphEdges(D);
 [ [ 1, 2 ], [ 1, 3 ], [ 1, 5 ], [ 1, 9 ], [ 2, 1 ], [ 3, 1 ], [ 3, 4 ], 
   [ 4, 3 ], [ 5, 1 ], [ 5, 6 ], [ 5, 7 ], [ 6, 5 ], [ 7, 5 ], [ 7, 8 ], 

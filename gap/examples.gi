@@ -1259,7 +1259,7 @@ function(filt, n, par)
   D := MakeImmutable(CirculantGraphCons(IsMutableDigraph, n, par));
   SetIsMultiDigraph(D, false);
   SetIsSymmetricDigraph(D, true);
-  SetIsAcyclicDigraph(D, false);
+  SetIsUndirectedTree(D, false);
   SetIsRegularDigraph(D, true);
   SetIsVertexTransitive(D, true);
   SetIsHamiltonianDigraph(D, true);
@@ -1289,7 +1289,7 @@ function(filt, n)
   D := MakeImmutable(AndrasfaiGraphCons(IsMutableDigraph, n));
   SetIsMultiDigraph(D, false);
   SetIsSymmetricDigraph(D, true);
-  SetIsAcyclicDigraph(D, false);
+  SetIsUndirectedTree(D, false);
   SetIsRegularDigraph(D, true);
   SetIsVertexTransitive(D, true);
   SetIsHamiltonianDigraph(D, true);
@@ -1472,7 +1472,7 @@ function(filt, n)
   D := MakeImmutable(PathGraphCons(IsMutableDigraph, n));
   SetIsMultiDigraph(D, false);
   SetIsSymmetricDigraph(D, true);
-  SetIsAcyclicDigraph(D, true);
+  SetIsUndirectedTree(D, true);
   SetIsEmptyDigraph(D, n = 1);
   return D;
 end);
@@ -1649,7 +1649,7 @@ function(filt, n)
   SetIsMultiDigraph(D, false);
   SetIsSymmetricDigraph(D, true);
   SetIsEmptyDigraph(D, n = 1);
-  SetIsAcyclicDigraph(D, true);
+  SetIsUndirectedTree(D, true);
   return D;
 end);
 
