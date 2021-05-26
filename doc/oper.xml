@@ -1974,7 +1974,7 @@ gap> ModularProduct(NullDigraph(0), CompleteDigraph(10));
   <Description>
   If <A>D1</A> and <A>D2</A> are symmetric digraphs without multiple edges,
   then <C>StrongProduct</C> calculates the <E>strong product digraph</E>
-  (<C>SPD</C>) of <A>D1</A>and <A>D2</A>.
+  (<C>SPD</C>) of <A>D1</A> and <A>D2</A>.
 
   <C>SPD</C> has vertex set <C>V1 x V2</C> where <C>V1</C> is the vertex set of
   <A>D1</A> and <C>V2</C> is the vertex set of <A>D2</A> (a vertex
