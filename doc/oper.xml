@@ -2021,7 +2021,7 @@ gap> StrongProduct(DigraphSymmetricClosure(ChainDigraph(3)),
   <Description>
   If <A>D1</A> and <A>D2</A> are symmetric digraphs without multiple edges,
   then <C>CoNormalProduct</C> calculates the <E>co-normal product digraph</E>
-  (<C>CNPD</C>) of <A>D1</A>and <A>D2</A>.
+  (<C>CNPD</C>) of <A>D1</A> and <A>D2</A>.
 
   <C>CNPD</C> has vertex set <C>V1 x V2</C> where <C>V1</C> is the vertex set of
   <A>D1</A> and <C>V2</C> is the vertex set of <A>D2</A> (a vertex
@@ -2055,7 +2055,7 @@ gap> CoNormalProduct(NullDigraph(0), CompleteDigraph(10));
   <Description>
   If <A>D1</A> and <A>D2</A> are symmetric digraphs without multiple edges,
   then <C>HomomorphicProduct</C> calculates the <E>homomorphic product digraph</E>
-  (<C>HPD</C>) of <A>D1</A>and <A>D2</A>.
+  (<C>HPD</C>) of <A>D1</A> and <A>D2</A>.
 
   <C>HPD</C> has vertex set <C>V1 x V2</C> where <C>V1</C> is the vertex set of
   <A>D1</A> and <C>V2</C> is the vertex set of <A>D2</A> (a vertex
