@@ -676,7 +676,7 @@ gap> KnightsGraph(IsMutable, 3, 9);
     <URL>https://mathworld.wolfram.com/QueenGraph.html</URL>:
     <P/>
 
-    <Q>The <C><A>m</A> x <A>n</A><C> queen graph <C>Q_(m,n)</C> is a graph with
+    <Q>The <C><A>m</A> x <A>n</A></C> queen graph <C>Q_(m,n)</C> is a graph with
     mn vertices in which each vertex represents a square in an m×n chessboard,
     and each edge corresponds to a legal move by a queen.</Q>
     <P/>
