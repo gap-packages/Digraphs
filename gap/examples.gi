@@ -499,8 +499,7 @@ function(filt, n)
     od;
   fi;
   sideHn := Length(H_n);
-  D := Digraph(IsMutableDigraph, []);
-  DigraphAddVertices(D, 4 * sideHn);
+  D := EmptyDigraph(IsMutableDigraph, 4 * sideHn);
   for i in [1 .. sideHn] do
     for j in [1 .. sideHn] do
       if H_n[i][j] = 1 then
@@ -546,8 +545,7 @@ function(filt, n)
       j := j + 1;
     fi;
   od;
-  D := Digraph(IsMutableDigraph, []);
-  DigraphAddVertices(D, [1 .. Length(vertices)]);
+  D := EmptyDigraph(IsMutableDigraph, Length(vertices));
   for i in [1 .. Length(vertices) - 1] do
     for j in [i + 1 .. Length(vertices)] do
       if SizeBlist(List([1 .. Length(vertices[i])],
@@ -665,8 +663,7 @@ function(filt, n)
     ErrorNoReturn("the argument <n> must be a non-negative integer,");
   fi;
   vertices := Tuples([0, 1], n);
-  D := Digraph(IsMutableDigraph, []);
-  DigraphAddVertices(D, [1 .. Length(vertices)]);
+  D := EmptyDigraph(IsMutableDigraph, Length(vertices));
   for i in [1 .. Length(vertices) - 1] do
     for j in [i + 1 .. Length(vertices)] do
       if SizeBlist(List([1 .. Length(vertices[i])],
@@ -804,7 +801,7 @@ function(filt, n)
   fi;
   central := 2 * n + 1;
   D := CycleGraph(IsMutableDigraph, central - 1);
-  DigraphAddVertex(D, 1);
+  DigraphAddVertex(D);
   for i in [1 .. n] do
     DigraphAddEdge(D, 2 * i, central);
     DigraphAddEdge(D, central, 2 * i);
@@ -835,7 +832,7 @@ function(filt, n)
   local D, central, i, threei;
   central := 6 * n + 4;
   D := CycleGraph(IsMutableDigraph, central - 1);
-  DigraphAddVertex(D, 1);
+  DigraphAddVertex(D);
   for i in [0 .. (2 * n)] do
     threei := 3 * i;
     DigraphAddEdge(D, central, threei + 1);
@@ -898,25 +895,15 @@ InstallMethod(BondyGraph, "for a function and an integer",
 InstallMethod(KneserGraphCons, "for IsMutableDigraph and two integers",
 [IsMutableDigraph, IsPosInt, IsPosInt],
 function(filt, n, k)
-  local D, tuples, vertices, i, j;
+  local D, vertices, i, j;
   if n < k then
     ErrorNoReturn("argument <n> must be greater than or equal to argument <k>,");
   fi;
-  tuples := Tuples([0, 1], n);
-  vertices := List([1 .. Binomial(n, k)], x -> []);
-  j := 1;
-  for i in [1 .. Length(tuples)] do
-    if Sum(tuples[i]) = k then
-      vertices[j] := tuples[i];
-      j := j + 1;
-    fi;
-  od;
-  D := Digraph(IsMutableDigraph, []);
-  DigraphAddVertices(D, [1 .. Length(vertices)]);
+  vertices := Combinations([1 .. n], k);
+  D := EmptyDigraph(IsMutableDigraph, Length(vertices));
   for i in [1 .. Length(vertices) - 1] do
     for j in [i + 1 .. Length(vertices)] do
-      if SizeBlist(List([1 .. Length(vertices[i])],
-          x -> vertices[i][x] = 1 and vertices[j][x] = 1)) = 0 then
+      if Length(Intersection(vertices[i], vertices[j])) = 0 then
         DigraphAddEdge(D, i, j);
         DigraphAddEdge(D, j, i);
       fi;
@@ -1181,7 +1168,7 @@ InstallMethod(KellerGraphCons, "for IsMutableDigraph and an integer",
 [IsMutableDigraph, IsInt],
 function(filt, n)
   local D, vertices, i, j;
-  if (not IsInt(n)) or n < 0 then
+  if n < 0 then
     ErrorNoReturn("the argument <n> must be a non-negative integer,");
   fi;
   vertices := Tuples([0, 1, 2, 3], n);
