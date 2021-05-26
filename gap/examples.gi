@@ -383,24 +383,19 @@ function(filt, color, m, n)
   D1 := EmptyDigraph(filt, m * n);
   D2 := EmptyDigraph(filt, m * n);
 
-  for i in [1 .. (m - 1)] do
-    for j in [1 .. (n - 1)] do
-      if IsEvenInt(i + j) and color = "dark-square"
-          or IsOddInt(i + j) and color = "light-square" then
-        v := (i - 1) * n + j;
-        DigraphAddEdge(D1, [v, v + n + 1]);
-      fi;
-    od;
-  od;
-  for i in [1 .. (m - 1)] do
-    for j in [1 .. (n - 1)] do
-      if IsEvenInt(i + j) and color = "light-square"
-          or IsOddInt(i + j) and color = "dark-square" then
-        v := (i - 1) * n + j + 1;
-        DigraphAddEdge(D2, [v, v + n - 1]);
-      fi;
-    od;
-  od;
+   for i in [1 .. (m - 1)] do
+     for j in [1 .. (n - 1)] do
+       if IsEvenInt(i + j) and color = "dark-square"
+           or IsOddInt(i + j) and color = "light-square" then
+         v := (i - 1) * n + j;
+         DigraphAddEdge(D1, [v, v + n + 1]);
+       elif IsEvenInt(i + j) and color = "light-square"
+           or IsOddInt(i + j) and color = "dark-square" then
+         v := (i - 1) * n + j + 1;
+         DigraphAddEdge(D2, [v, v + n - 1]);
+       fi;
+     od;
+   od;
   DigraphTransitiveClosure(D1);
   DigraphTransitiveClosure(D2);
   D := DigraphEdgeUnion(D1, D2);
