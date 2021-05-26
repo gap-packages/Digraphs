@@ -753,7 +753,7 @@ function(D1, D2)
 end);
 
 InstallMethod(DIGRAPHS_GraphProduct,
-"for a digraph, a digraph, a function and a function",
+"for a digraph, a digraph, and a function",
 [IsDigraph, IsDigraph, IsFunction],
 function(D1, D2, edge_function)
   local m, n, edges, u, v, map;
