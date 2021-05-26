@@ -98,6 +98,7 @@
     <#Include Label="StarDigraph">
     <#Include Label="TadpoleDigraph">
     <#Include Label="BookDigraph">
+    <#Include Label="PancakeGraph">
   </Section>
 
 </Chapter>
