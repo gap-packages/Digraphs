@@ -1083,6 +1083,7 @@ function(filt, n, k)
     SetChromaticNumber(D, n - 2 * k + 2);
   else
     SetChromaticNumber(D, 1);
+    SetIsEmptyDigraph(D, true);
   fi;
   if Float(n) >= ((3 + 5 ^ 0.5) / 2) * Float(k) + 1 then
     SetIsHamiltonianDigraph(D, true);
@@ -1444,11 +1445,7 @@ InstallMethod(WindmillGraph, "for a function and two integers",
 InstallMethod(PathGraphCons, "for IsMutableDigraph and an integer",
 [IsMutableDigraph, IsPosInt],
 function(filt, n)
-  local D;
-  D := Digraph(IsMutableDigraph, []);
-  DigraphAddVertices(D, n);
-  DigraphAddEdges(D, List([1 .. (n - 1)], x -> [x, x + 1]));
-  return DigraphSymmetricClosure(D);
+  return DigraphSymmetricClosure(ChainDigraph(IsMutableDigraph, n));
 end);
 
 InstallMethod(PathGraphCons,
