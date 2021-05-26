@@ -543,10 +543,13 @@ true]]></Example>
     directed edges. The <M>n</M>th Pancake graph is the Cayley graph of the
     hyperoctahedral group acting on <C>[<A>-n</A> .. -1, 1 .. <A>n</A>]</C> with respect to the
     generating set consisting of the <Q>prefix reversals</Q>, which are defined in exactly
-    the same way as in  <Ref Attr="PancakeGraph"/>. The hyperoctahedral group consists of
+    the same way as in  <Ref Oper="PancakeGraph"/>. The hyperoctahedral group consists of
     permutations <M>p</M> acting on <C>[<A>-n</A> .. -1, 1 .. <A>n</A>]</C>, where the image
-    of any arbitrary point <M>i</M> in <C>[<A>-n</A> .. -1, 1 .. <A>n</A>]</C> is equal to the
+    of every point <M>i</M> in <C>[<A>-n</A> .. -1, 1 .. <A>n</A>]</C> is equal to the
     negative of the image of <M>-i</M> under <M>p</M>.
+    GAP only works with permutations of positive integers and so <C>BurntPancakeGraph</C> returns
+    the Cayley graph of the hyperoctahedral group acting on <C>[1 .. <A>2n</A>]</C> instead of
+    <C>[<A>-n</A> .. -1, 1 .. <A>n</A>]</C>.
     If the optional first argument <A>filt</A> is not present, then <Ref
     Filt="IsImmutableDigraph"/> is used by default.<P/>
 
