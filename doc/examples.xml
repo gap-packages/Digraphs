@@ -1599,3 +1599,32 @@ gap> D := PathGraph(12);
   </Description>
 </ManSection>
 <#/GAPDoc>
+
+<#GAPDoc Label="HelmGraph">
+<ManSection>
+  <Oper Name="HelmGraph" Arg="[filt, ]n"/>
+  <Returns>A digraph.</Returns>
+  <Description>
+    If <A>n</A> is a positive integer at least 3, then this operation returns
+    the <M>n</M>th <E>Helm graph</E>. The Helm graph is the <A>n</A>-1th Wheel 
+    Graph with, for each external vertex of the 'wheel', adjoining a new vertex 
+    incident only to the first vertex. That is, the graph looks similar to 
+    a ship's helm.<P/>
+
+    If the optional first argument <A>filt</A> is present, then this should
+    specify the category or representation the digraph being created will
+    belong to. For example, if <A>filt</A> is <Ref Filt="IsMutableDigraph"/>,
+    then the digraph being created will be mutable, if <A>filt</A> is <Ref
+    Filt="IsImmutableDigraph"/>, then the digraph will be immutable. 
+    If the optional first argument <A>filt</A> is not present, then <Ref
+    Filt="IsImmutableDigraph"/> is used by default.<P/>
+
+    See <URL>https://mathworld.wolfram.com/WheelGraph.html</URL> for further
+    details. 
+
+<Example><![CDATA[
+gap> D := HelmGraph(4);
+<immutable symmetric digraph with 9 vertices, 24 edges>]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
