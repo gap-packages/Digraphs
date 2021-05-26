@@ -356,11 +356,11 @@ gap> LollipopGraph(IsMutableDigraph, 3, 8);
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is a positive integer at least 3, then this operation
-    returns the <E>Gear graph</E> with <M>2n + 1</M> vertices and
-    <M>3n</M> undirected edges. The <M>n</M>th Gear graph is the <M>2n</M>th
-    Cycle graph with one additional central vertex, to which every other
-    vertex of the cycle is connected. The Gear graph is a symmetric digraph.
-    A Gear graph is a Matchstick graph, that is it is simple with a planar
+    returns the <E>gear graph</E> with <M>2n + 1</M> vertices and
+    <M>3n</M> undirected edges. The <M>n</M>th gear graph is the <M>2n</M>th
+    cycle graph with one additional central vertex, to which every other
+    vertex of the cycle is connected. The gear graph is a symmetric digraph.
+    A gear graph is a Matchstick graph, that is it is simple with a planar
     graph embedding, and is a unit-distance graph (that is, it can be embedded
     into the Euclidean plane with vertices being distinct points and edges
     having length 1).<P/>
@@ -451,13 +451,13 @@ gap> OutNeighbors(D);
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is a positive integer at least 3, then this operation returns
-    the <E>Prism graph</E> that is the skeleton of the <M>n</M>-prism. It has
+    the <E>prism graph</E> that is the skeleton of the <M>n</M>-prism. It has
     <M>2n</M> vertices and <M>3n</M> undirected edges. The Prism graph is a
-    symmetric digraph. The <M>n</M>th Prism graph is isomorphic to the graph
-    Cartesian product of the <M>2</M>nd Path graph and the <M>n</M>th Cycle
+    symmetric digraph. The <M>n</M>th prism graph is isomorphic to the graph
+    Cartesian product of the <M>2</M>nd Path graph and the <M>n</M>th cycle
     graph, isomorphic to the generalised Petersen graph <M>GP(n,1)</M>. If
-    <M>n</M> is odd then the Prism graph is isomorphic to the Circulant graph
-    <M>Ci(2n, [2,n])</M>. The Prism graph is Hamiltonian.<P/>
+    <M>n</M> is odd then the prism graph is isomorphic to the Circulant graph
+    <M>Ci(2n, [2,n])</M>. The prism graph is Hamiltonian.<P/>
 
     If the optional first argument <A>filt</A> is present, then this should
     specify the category or representation the digraph being created will
@@ -489,9 +489,9 @@ true]]></Example>
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is a positive integer at least 4, then this operation returns
-    the <E>Mobius Ladder graph</E> that is obtained by introducing a 'twist'
-    in the <M>n</M>th Prism graph, similar to the construction of a Mobius
-    strip. The Mobius ladder graph is isomorphic to the Circulant graph
+    the <E>Mobius ladder graph</E> that is obtained by introducing a 'twist'
+    in the <M>n</M>th prism graph, similar to the construction of a Mobius
+    strip. The Mobius ladder graph is isomorphic to the circulant graph
     <M>Ci(2n, [1, n])</M>. The Mobius ladders are cubic, symmetric,
     Hamiltonian, vertex-transitive, and graceful. They are also non-planar
     and apex, meaning removing a single vertex produces a planar graph.<P/>
@@ -577,9 +577,9 @@ gap> GridGraph(IsMutable, 3, 4);
     the <E>Hadamard graph</E> constructed from the <M>n</M>th Hadamard matrix
     (of dimension <M>2^n</M>) as constructed by Joseph Walsh. A Hadamard matrix
     is a square matrix with entries either 1 or -1, such that all the rows are
-    mutually orthogonal. The <M>n</M>th Hadamard graph is a graph on <M>4n</M>
-    matrices split into four categories <M>r_i+, r_i-, c_i+, c_i-</M>. If
-    <M>h_ij</M> are the elements of the <M>n</M>th Walsh matrix, then if
+    mutually orthogonal. The <M>n</M>th Walsh Hadamard graph is a graph on
+    <M>4n</M> matrices split into four categories <M>r_i+, r_i-, c_i+, c_i-</M>.
+    If <M>h_ij</M> are the elements of the <M>n</M>th Walsh matrix, then if
     <M>h_ij = 1</M> then <M>(r_i+, c_j+)</M> and <M>(r_i-, c_j-)</M> are edges,
     if <M>h_ij = -1</M> then <M>(r_i+, c_j-)</M> and <M>(r_i-, c_j+)</M> are
     edges. Walsh Hadamard graphs are distance transitive and distance
@@ -611,7 +611,7 @@ true]]></Example>
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is a positive integer at least 1, then this operation returns
-    the <M>n</M>th <E>Halved Cube graph</E>, the graph of the <M>n</M>-
+    the <M>n</M>th <E>halved cube graph</E>, the graph of the <M>n</M>-
     demihypercube. The vertices of the graph are those of the <M>n</M>th-
     hypercube, with two vertices adjacent if and only if they are at distance
     1 or 2 from each other. Equivalent constructions are as the second graph
@@ -651,13 +651,13 @@ true]]></Example>
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is a positive integer at least 4, then this operation returns
-    the <M>n</M>th <E>Wheel graph</E>. The Wheel graph is formed from an
-    <M>n-1</M> Cycle graph with a single additional vertex adjacent to all
+    the <M>n</M>th <E>wheel graph</E>. The Wheel graph is formed from an
+    <M>n-1</M> cycle graph with a single additional vertex adjacent to all
     vertices of the cycle. The graph has <M>n</M> vertices and <M>2(n-1)</M>
     edges. Wheel graphs are the skeletons of <M>n-1</M> pyramids, and are
-    self-dual. If <M>n</M> is odd, then the chromatic number of the Wheel
+    self-dual. If <M>n</M> is odd, then the chromatic number of the wheel
     graph is 3 and the Wheel graph is perfect, and it is 4 otherwise. The
-    Wheel graph is also Hamiltonian and planar.<P/>
+    wheel graph is also Hamiltonian and planar.<P/>
 
     If the optional first argument <A>filt</A> is present, then this should
     specify the category or representation the digraph being created will
@@ -729,11 +729,11 @@ gap> TriangularGridGraph(IsMutable, 3, 3);
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is a non-negative integer, then this operation returns the
-    <M>n</M>th <E>Hypercube graph</E>. The graph has <M>2^n</M> vertices and
+    <M>n</M>th <E>hypercube graph</E>. The graph has <M>2^n</M> vertices and
     <M>2^(n-1)n</M> edges. It is formed from the vertices and edges of the 
     <M>n</M>-dimensional hypercube. Alternatively, the graph can be constructed
     by labelling each vertex with the binary numbers, with two vertices 
-    adjacent if they have Hamming distance exactly one. The Hypercube graphs
+    adjacent if they have Hamming distance exactly one. The hypercube graphs
     are Hamiltonian, distance-transitive and therefore distance-regular, and
     bipartite.<P/>
 
@@ -968,14 +968,14 @@ gap> CliqueNumber(D);
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is an integer greater than 0, then this operation returns the
-    <M>n</M>th <E>Odd graph</E>. The Odd graph has vertices labelled with the 
+    <M>n</M>th <E>odd graph</E>. The odd graph has vertices labelled with the 
     <M>n - 1</M>-subsets of a <M>2n - 1</M>-set, with two vertices adjacent if 
-    and only if their subsets are disjoint. The <M>n</M>th Odd graph is the 
+    and only if their subsets are disjoint. The <M>n</M>th odd graph is the 
     <M>(2n - 1, n - 1)</M>th Kneser graph. The graph has
     <M>Binomial(2n - 1, n -1)</M> vertices and
     <M>n * Binomial(2n - 1, n - 1) / 2</M> edges.<P/>
 
-    The Odd graph is regular and distance transitive (and therefore distance
+    The odd graph is regular and distance transitive (and therefore distance
     regular). They have chromatic number equal to 3, and all Odd graphs with
     <M>n</M> greater than 3 are Hamiltonian. They are also vertex and edge
     transitive.<P/>
@@ -1056,14 +1056,14 @@ ent sizes 5 and 5>
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is an integer greater than 0, then this operation returns the
-    <M>n</M>th <E>Andrasfai graph</E>. The Andrasfai graph is a Circulant graph
+    <M>n</M>th <E>Andrasfai graph</E>. The Andrasfai graph is a circulant graph
     with <M>3n - 1</M> vertices. The indices of the Andrasfai graph are given by
     the numbers between <M>1</M> and <M>3n - 1</M> that are congruent to
     <M>1 mod 3</M> (that is, for each index <M>j</M>, vertex <M>i</M> is
     adjacent to the <M>i + j</M>th and <M>i - j</M> vertices). The graph has
     <M>6(3n - 1)</M> edges. The graph is triangle free.<P/>
 
-    As a Circulant graph, the Andrasfai graph is biconnected, cyclic,
+    As a circulant graph, the Andrasfai graph is biconnected, cyclic,
     Hamiltonian, regular, and vertex transitive.<P/>
 
     If the optional first argument <A>filt</A> is present, then this should
@@ -1096,18 +1096,18 @@ true]]></Example>
   <Description>
     If <A>n</A> is an integer greater than 1, and <A>par</A> is a list of
     integers that are contained in <M>[1 .. n]</M> then this operation returns
-    a <E>Circulant graph</E>. The Circulant graph is a graph on <A>n</A>
+    a <E>circulant graph</E>. The circulant graph is a graph on <A>n</A>
     vertices, where for each element <M>j</M> of <A>par</A>, the <M>i</M>th 
     vertex is adjacent to the <M>(i + j)</M>th and <M>(i - j)</M>th
     vertices.<P/>
 
-    If <A>par</A> is <M>[1]</M>, then the graph is the <M>n</M>th Cyclic graph.
+    If <A>par</A> is <M>[1]</M>, then the graph is the <M>n</M>th cyclic graph.
     If <A>par</A> is <M>[1, 2, . . ., Int(n / 2)]</M>, then the graph is the 
     complete graph on <A>n</A> vertices. If <A>n</A> is at least 4 and
-    <A>par</A> is <M>[1, n]</M> then the graph is the <M>n</M>th Mobius Ladder
+    <A>par</A> is <M>[1, n]</M> then the graph is the <M>n</M>th Mobius ladder
     graph.<P/>
 
-    A Circulant graph is biconnected, cyclic, Hamiltonian, regular, and vertex
+    A circulant graph is biconnected, cyclic, Hamiltonian, regular, and vertex
     transitive.<P/>
 
     If the optional first argument <A>filt</A> is present, then this should
@@ -1230,7 +1230,7 @@ gap> ChromaticNumber(D);
   <Description>
     If <A>n</A> is an integer at greater than 0 and <A>k</A> is an integer
     greater than 1, and <A>k</A> less than or equal to <A>n</A>, then this
-    operation returns the <M>(n, k)</M>th <E>Permutation Star graph</E>. The
+    operation returns the <M>(n, k)</M>th <E>permutation Star graph</E>. The
     vertices of the graph are given by the <M>k</M>-length ordered subsets of
     an <M>n</M>-set, with two vertices being adjacent if one is labelled
     <M>p1 p2 p3 ... pi ... pk</M>, and the other is either labelled
@@ -1238,7 +1238,7 @@ gap> ChromaticNumber(D);
     where <M>x</M> is in <M>[1 .. n]</M> and is not equal to <M>p1</M>. The
     graph has <M>n! / (n - k)!</M> vertices.<P/>
 
-    The Permutation Star graph is regular and vertex transitive. It has diameter
+    The permutation star graph is regular and vertex transitive. It has diameter
     <M>2k - 1</M> if <A>k</A> less than or equal to <M>Int(n / 2)</M>, and
     diameter <M>Int((n - 1) / 2) + k</M> if <M><A>k</A> >= Int(n / 2) + 1</M>.
     <P/>
@@ -1307,10 +1307,10 @@ true
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> and <A>m</A> are integers greater than 1 then this operation
-    returns the <M>(n, m)</M>th <E>Windmill graph</E>. The Windmill graph is 
-    formed from <M>m</M> copies of the Complete graph on <M>n</M> vertices with 
+    returns the <M>(n, m)</M>th <E>windmill graph</E>. The windmill graph is 
+    formed from <M>m</M> copies of the complete graph on <M>n</M> vertices with 
     one shared vertex. The graph has <M>(n - 1) * m + 1</M> vertices and 
-    <M>m * n * (n - 1) / 2</M> undirected edges. The Windmill graph has
+    <M>m * n * (n - 1) / 2</M> undirected edges. The windmill graph has
     chromatic number <M>n</M> and diameter 2.<P/>
 
     If the optional first argument <A>filt</A> is present, then this should
@@ -1339,12 +1339,12 @@ gap> ChromaticNumber(D);
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is an integer at least 3 and <A>k</A> is a positive integer then
-     this operation returns the <M>(n, k)</M>th <E>Stacked Prism graph</E>. The 
+     this operation returns the <M>(n, k)</M>th <E>stacked prism graph</E>. The 
      graph is <M>k</M> concentric <M>n</M>-Cycle graphs connected by spokes.
-     The Stacked Prism is the graph Cartesian product of the <M>n</M>th Cycle 
-     graph and the <M>k</M>th Path graph. The graph has <M>nk</M> vertices and 
+     The stacked prism is the graph Cartesian product of the <M>n</M>th cycle 
+     graph and the <M>k</M>th path graph. The graph has <M>nk</M> vertices and 
      <M>n(2k - 1)</M> undirected edges. If <M>k</M> is 1 then the graph is the 
-     <M>n</M>th Cycle graph, if <M>k</M> is 2 then the graph is the Prism graph.
+     <M>n</M>th cycle graph, if <M>k</M> is 2 then the graph is the prism graph.
      <P/>
 
     If the optional first argument <A>filt</A> is present, then this should
@@ -1411,8 +1411,8 @@ true
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is an integer at least 3 then this operation returns the
-    <M>n</M>th <E>Web graph</E>. The Web graph is the <M>(n, 3)</M>th 
-    Stacked Prism graph with the edges of the outer cycle removed. The graph 
+    <M>n</M>th <E>web graph</E>. The web graph is the <M>(n, 3)</M>th 
+    stacked prism graph with the edges of the outer cycle removed. The graph 
     has <M>3n</M> vertices and <M>4n</M> undirected edges.<P/>
 
     If the optional first argument <A>filt</A> is present, then this should
@@ -1512,15 +1512,15 @@ true]]></Example>
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is a positive integer then this operation returns the
-    <M>n</M>th <E>Binomial Tree graph</E>. The Binomial Tree graph has <M>n</M>
-    vertices and <M>n-1</M> undirected edges. The vertices of the Binomial Tree 
+    <M>n</M>th <E>binomial tree graph</E>. The binomial tree graph has <M>n</M>
+    vertices and <M>n-1</M> undirected edges. The vertices of the binomial tree 
     graph are the numbers from 1 to <M>n</M> in binary representation, with a 
     vertex <M>v</M> having as a direct parent the vertex with binary
     representation the same as <M>v</M> but with the lowest 1-bit cleared. For 
     example, the vertex <M>011</M> has parent <M>010</M>, and the vertex
     <M>010</M> has parent <M>000</M>.<P/>
 
-    The Binomial Tree graph is an undirected tree, and is symmetric as a
+    The binomial tree graph is an undirected tree, and is symmetric as a
     digraph.<P/>
 
     If the optional first argument <A>filt</A> is present, then this should
@@ -1547,9 +1547,9 @@ gap> D := BinomialTreeGraph(9);
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is an integer greater than 2 then this operation returns the
-    <M>n</M>th <E>Cycle graph</E>, consisting of the cycle on <M>n</M> vertices.
-    The Cycle graph, unlike the Cycle digraph, is symmetric. The Cycle graph 
-    has <M>n</M> vertices and <M>n</M> undirected edges. The Cycle graph is 
+    <M>n</M>th <E>cycle graph</E>, consisting of the cycle on <M>n</M> vertices.
+    The cycle graph, unlike the cycle digraph, is symmetric. The cycle graph 
+    has <M>n</M> vertices and <M>n</M> undirected edges. The cycle graph is 
     simple so the non-simple graphs with a single vertex and single loop and
     with two vertices and two edges between them are excluded.<P/>
 
@@ -1577,8 +1577,8 @@ gap> D := CycleGraph(7);
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is a non-negative integer then this operation returns the
-    <M>n</M>th <E>Path graph</E>, consisting of the path on <M>n</M> vertices.
-    This is similar to the Chain digraph but with symmetric edges. The Path 
+    <M>n</M>th <E>path graph</E>, consisting of the path on <M>n</M> vertices.
+    This is similar to the Chain digraph but with symmetric edges. The path 
     graph has <M>n</M> vertices and <M>n-1</M> edges. The graph is an 
     undirected tree.<P/>
 
@@ -1606,8 +1606,8 @@ gap> D := PathGraph(12);
   <Returns>A digraph.</Returns>
   <Description>
     If <A>n</A> is a positive integer at least 3, then this operation returns
-    the <M>n</M>th <E>Helm graph</E>. The Helm graph is the <A>n</A>-1th Wheel 
-    Graph with, for each external vertex of the 'wheel', adjoining a new vertex 
+    the <M>n</M>th <E>helm graph</E>. The helm graph is the <A>n</A>-1th wheel 
+    graph with, for each external vertex of the 'wheel', adjoining a new vertex 
     incident only to the first vertex. That is, the graph looks similar to 
     a ship's helm.<P/>
 
