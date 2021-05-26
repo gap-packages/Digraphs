@@ -590,7 +590,7 @@ true
     <Q>The <C><A>m</A> x <A>m</A></C> rook's graph (confusingly called the 
     <C><A>m</A> x <A>m</A></C> grid by Brouwer et al.1989, p. 440) and also
     sometimes known as a lattice graph (e.g., Brouwer) is the graph Cartesian 
-    product <C>K_m square K_n</C> of complete graphs, which is
+    product <M>K_m \square K_n</M> of complete graphs, which is
     equivalent to the line graph <C>L(K_(m,n))</C> of the complete bipartite graph
     <C>K_(m,n)</C>. This is the definition adopted for example by Brualdi and Ryser
     (1991, p. 153), although restricted to the case <C>m = n</C>. This definition
