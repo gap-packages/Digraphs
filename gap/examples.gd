@@ -96,6 +96,8 @@ DeclareConstructor("BishopsGraphCons",
 [IsDigraph, IsString, IsPosInt, IsPosInt]);
 DeclareOperation("BishopsGraph", [IsString, IsPosInt, IsPosInt]);
 DeclareOperation("BishopsGraph", [IsFunction, IsString, IsPosInt, IsPosInt]);
+DeclareConstructor("BishopsGraphCons",
+[IsDigraph, IsPosInt, IsPosInt]);
 DeclareOperation("BishopsGraph", [IsPosInt, IsPosInt]);
 DeclareOperation("BishopsGraph", [IsFunction, IsPosInt, IsPosInt]);
 DeclareSynonym("BishopGraph", BishopsGraph);

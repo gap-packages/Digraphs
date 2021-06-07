@@ -315,7 +315,7 @@ gap> GeneralisedPetersenGraph(IsMutableDigraph, 9, 4);
 
 <#GAPDoc Label="BishopsGraph">
 <ManSection>
-  <Oper Name="BishopsGraph" Arg="[filt, ]color, m, n"/>
+  <Oper Name="BishopsGraph" Arg="[[filt, ]color, ] m, n"/>
   <Returns>A digraph.</Returns>
   <Description>
     If <A>m</A> and <A>n</A> are positive integers and <A>color</A> is

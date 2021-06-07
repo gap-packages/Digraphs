@@ -373,26 +373,36 @@ InstallMethod(BishopsGraphCons,
 "for IsMutableDigraph, a string and two positive integers",
 [IsMutableDigraph, IsString, IsPosInt, IsPosInt],
 function(filt, color, m, n)
-  local D, D1, D2, i, j, v;
+  local D, D1, D2, i, j, v, vertices, map;
 
   if not (color = "dark-square" or color = "light-square") then
     ErrorNoReturn(
     "the argument <color> must be either \"dark-square\" or \"light-square\".");
   fi;
 
-  D1 := EmptyDigraph(filt, m * n);
-  D2 := EmptyDigraph(filt, m * n);
+  vertices := EuclideanQuotient(m * n, 2);
+
+  if IsOddInt(m * n) and color = "light-square" then
+    vertices := vertices + 1;
+  fi;
+
+  D1 := EmptyDigraph(filt, vertices);
+  D2 := EmptyDigraph(filt, vertices);
+
+  map := function(a)
+      return EuclideanQuotient(a + 1, 2);
+  end;
 
   for i in [1 .. (m - 1)] do
     for j in [1 .. (n - 1)] do
-      if IsEvenInt(i + j) and color = "dark-square"
-          or IsOddInt(i + j) and color = "light-square" then
-        v := (i - 1) * n + j;
-        DigraphAddEdge(D1, [v, v + n + 1]);
-      elif IsEvenInt(i + j) and color = "light-square"
+      if IsEvenInt(i + j) and color = "light-square"
           or IsOddInt(i + j) and color = "dark-square" then
+        v := (i - 1) * n + j;
+        DigraphAddEdge(D1, [map(v), map(v + n + 1)]);
+      elif IsEvenInt(i + j) and color = "dark-square"
+          or IsOddInt(i + j) and color = "light-square" then
         v := (i - 1) * n + j + 1;
-        DigraphAddEdge(D2, [v, v + n - 1]);
+        DigraphAddEdge(D2, [map(v), map(v + n - 1)]);
       fi;
     od;
   od;
@@ -423,6 +433,52 @@ BishopsGraphCons);
 InstallMethod(BishopsGraph, "for a string and two positive integers",
 [IsString, IsPosInt, IsPosInt],
 {color, m, n} -> BishopsGraphCons(IsImmutableDigraph, color, m, n));
+
+InstallMethod(BishopsGraphCons,
+"for IsMutableDigraph and two positive integers",
+[IsMutableDigraph, IsPosInt, IsPosInt],
+function(filt, m, n)
+  local D, D1, D2, i, j, v;
+
+  D1 := EmptyDigraph(filt, m * n);
+  D2 := EmptyDigraph(filt, m * n);
+
+  for i in [1 .. (m - 1)] do
+    for j in [1 .. (n - 1)] do
+      v := (i - 1) * n + j;
+      DigraphAddEdge(D1, [v, v + n + 1]);
+      v := (i - 1) * n + j + 1;
+      DigraphAddEdge(D2, [v, v + n - 1]);
+    od;
+  od;
+
+  DigraphTransitiveClosure(D1);
+  DigraphTransitiveClosure(D2);
+  D := DigraphEdgeUnion(D1, D2);
+  DigraphSymmetricClosure(D);
+  return D;
+end);
+
+InstallMethod(BishopsGraphCons,
+"for IsImmutableDigraph and two positive integers",
+[IsImmutableDigraph, IsPosInt, IsPosInt],
+function(filt, m, n)
+  local D;
+  D := MakeImmutable(BishopsGraphCons(IsMutableDigraph, m, n));
+  SetIsMultiDigraph(D, false);
+  SetIsSymmetricDigraph(D, true);
+  SetIsConnectedDigraph(D, m * n = 1);
+  return D;
+end);
+
+InstallMethod(BishopsGraph,
+"for a function and two positive integers",
+[IsFunction, IsPosInt, IsPosInt],
+BishopsGraphCons);
+
+InstallMethod(BishopsGraph, "for two positive integers",
+[IsPosInt, IsPosInt],
+{m, n} -> BishopsGraphCons(IsImmutableDigraph, m, n));
 
 InstallMethod(RooksGraphCons,
 "for IsMutableDigraph and two positive integers",
