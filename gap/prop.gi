@@ -196,10 +196,6 @@ function(D)
   return DigraphNrConnectedComponents(D) = 1;
 end);
 
-InstallImmediateMethod(IsAcyclicDigraph, "for a reflexive digraph",
-IsReflexiveDigraph, 0,
-D -> DigraphNrVertices(D) = 0);
-
 InstallImmediateMethod(IsAcyclicDigraph, "for a strongly connected digraph",
 IsStronglyConnectedDigraph, 0,
 D -> DigraphNrVertices(D) <= 1 and IsEmptyDigraph(D));

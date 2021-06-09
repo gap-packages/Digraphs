@@ -1,7 +1,7 @@
 #############################################################################
 ##
 #W  standard/prop.tst
-#Y  Copyright (C) 2014-17                                James D. Mitchell
+#Y  Copyright (C) 2014-21                                James D. Mitchell
 ##                                                          Wilf A. Wilson
 ##
 ##  Licensing information can be found in the README file of this package.
@@ -139,7 +139,7 @@ gap> gr := Digraph([[1]]);;
 gap> DigraphHasLoops(gr);
 true
 gap> HasIsAcyclicDigraph(gr);
-false
+true
 gap> IsAcyclicDigraph(gr);
 false
 gap> gr := Digraph([[2], []]);

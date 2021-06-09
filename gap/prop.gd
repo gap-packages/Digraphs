@@ -109,3 +109,41 @@ InstallTrueMethod(DigraphHasEdges, IsDigraph and DigraphHasLoops);
 InstallTrueMethod(DigraphHasLoops, IsReflexiveDigraph and DigraphHasVertices);
 InstallTrueMethod(DigraphHasVertices, IsDigraph and DigraphHasEdges);
 InstallTrueMethod(DigraphHasVertices, IsDigraph and IsDirectedTree);
+
+# Implications that something is false
+InstallTrueMethod(HasDigraphHasLoops, IsAcyclicDigraph);
+InstallTrueMethod(HasDigraphHasLoops, IsTournament);
+InstallTrueMethod(HasDigraphHasLoops, IsUndirectedForest);
+InstallTrueMethod(HasDigraphHasLoops, IsDirectedTree);
+InstallTrueMethod(HasDigraphHasLoops, IsEmptyDigraph);
+InstallTrueMethod(HasDigraphHasLoops, IsCompleteDigraph and DigraphHasEdges);
+InstallTrueMethod(HasDigraphHasLoops, IsBipartiteDigraph);
+
+# The following are valid, but unnecessary because of immediate methods
+InstallTrueMethod(HasDigraphHasEdges, IsEmptyDigraph);
+InstallTrueMethod(HasIsEmptyDigraph, IsDigraph and DigraphHasEdges);
+
+InstallTrueMethod(HasIsAcyclicDigraph, IsCompleteDigraph and DigraphHasEdges);
+InstallTrueMethod(HasIsAcyclicDigraph, IsDigraph and DigraphHasLoops);
+InstallTrueMethod(HasIsAcyclicDigraph,
+                  IsStronglyConnectedDigraph and DigraphHasEdges);
+InstallTrueMethod(HasIsAntisymmetricDigraph,
+                  IsCompleteDigraph and DigraphHasEdges);
+InstallTrueMethod(HasIsChainDigraph, IsDigraph and DigraphHasLoops);
+InstallTrueMethod(HasIsChainDigraph, IsSymmetricDigraph and DigraphHasEdges);
+InstallTrueMethod(HasIsCompleteDigraph, IsDigraph and DigraphHasLoops);
+InstallTrueMethod(HasIsReflexiveDigraph,
+                  IsAcyclicDigraph and DigraphHasVertices);
+
+InstallTrueMethod(HasIsSymmetricDigraph, IsAcyclicDigraph and DigraphHasEdges);
+InstallTrueMethod(HasIsSymmetricDigraph, IsDirectedTree and DigraphHasEdges);
+InstallTrueMethod(HasIsSymmetricDigraph, IsTournament and DigraphHasEdges);
+
+InstallTrueMethod(HasIsMultiDigraph, IsChainDigraph);
+InstallTrueMethod(HasIsMultiDigraph, IsCompleteDigraph);
+InstallTrueMethod(HasIsMultiDigraph, IsCompleteMultipartiteDigraph);
+InstallTrueMethod(HasIsMultiDigraph, IsCycleDigraph);
+InstallTrueMethod(HasIsMultiDigraph, IsEmptyDigraph);
+InstallTrueMethod(HasIsMultiDigraph, IsFunctionalDigraph);
+InstallTrueMethod(HasIsMultiDigraph, IsTournament);
+InstallTrueMethod(HasIsMultiDigraph, IsUndirectedForest);
