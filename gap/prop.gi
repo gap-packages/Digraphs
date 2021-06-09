@@ -341,10 +341,6 @@ end);
 InstallMethod(IsReflexiveDigraph, "for a digraph", [IsDigraph],
 D -> ForAll(DigraphVertices(D), x -> IsDigraphEdge(D, x, x)));
 
-InstallImmediateMethod(DigraphHasLoops, "for a reflexive digraph",
-IsReflexiveDigraph, 0,
-D -> DigraphNrVertices(D) > 0);
-
 InstallMethod(DigraphHasLoops, "for a digraph with adjacency matrix",
 [IsDigraph and HasAdjacencyMatrix],
 function(D)
