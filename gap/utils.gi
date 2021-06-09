@@ -577,3 +577,27 @@ function(nr, n)
   od;
   return x;
 end);
+
+InstallGlobalFunction(DError,
+function(arg)
+  local err, i;
+  err := "";
+  i := 1;
+  while i <= Length(arg) and IsString(arg[i]) do
+    Append(err, arg[i]);
+    i := i + 1;
+  od;
+  if i > 1 then
+    arg[i - 1] := err;
+    err := [CallFuncList(StringFormatted, arg{[i - 1 .. Length(arg)]})];
+    RemoveCharacters(err[1], "\n");
+    RemoveCharacters(err[1], "\\");
+  fi;
+  ErrorInner(
+      rec(context := ParentLVars(GetCurrentLVars()),
+          mayReturnVoid := false,
+          mayReturnObj := false,
+          lateMessage := "type 'quit;' to quit to outer loop",
+          printThisStatement := false),
+      err);
+end);
