@@ -530,14 +530,7 @@ function(D)
 end);
 
 InstallMethod(DigraphNrEdges, "for a digraph", [IsDigraphByOutNeighboursRep],
-function(D)
-  local m;
-  m := DIGRAPH_NREDGES(D);
-  if IsImmutableDigraph(D) then
-    SetIsEmptyDigraph(D, m = 0);
-  fi;
-  return m;
-end);
+DIGRAPH_NREDGES);
 
 InstallMethod(DigraphNrLoops,
 "for a digraph by out-neighbours",
@@ -685,7 +678,7 @@ InstallMethod(DigraphTopologicalSort, "for a digraph by out-neighbours",
 [IsDigraphByOutNeighboursRep],
 function(D)
   local i, record, num_vertices, data, AncestorFunc, PostOrderFunc;
-  if DigraphNrVertices(D) = 0 then
+  if not DigraphHasVertices(D) then
     return [];
   fi;
   record := NewDFSRecord(D);
@@ -776,7 +769,7 @@ InstallMethod(InDegrees, "for a digraph by out-neighbours",
 function(D)
   local adj, degs, x, i;
   adj := OutNeighbours(D);
-  degs := [1 .. DigraphNrVertices(D)] * 0;
+  degs := ListWithIdenticalEntries(DigraphNrVertices(D), 0);
   for x in adj do
     for i in x do
       degs[i] := degs[i] + 1;
@@ -1068,7 +1061,7 @@ function(D, v)
   fi;
 
   layerNumbers := [];
-  for i in [1 .. DigraphNrVertices(D)] do
+  for i in DigraphVertices(D) do
      layerNumbers[i] := laynum[orbnum[i]];
   od;
   data[v] := rec(layerNumbers    := layerNumbers,
@@ -1091,7 +1084,7 @@ function(D)
   # alter the answer for the diameter/girth if necessary.  This function is
   # called, if appropriate, by DigraphDiameter and DigraphUndirectedGirth.
 
-  if DigraphNrVertices(D) = 0 and IsImmutableDigraph(D) then
+  if not DigraphHasVertices(D) and IsImmutableDigraph(D) then
     SetDigraphDiameter(D, fail);
     SetDigraphUndirectedGirth(D, infinity);
     return rec(diameter := fail, girth := infinity);
@@ -1265,7 +1258,7 @@ function(D)
   local UNBLOCK, CIRCUIT, out, stack, endofstack, C, scc, n, blocked, B,
   c_comp, comp, s, loops, i;
 
-  if DigraphNrVertices(D) = 0 or DigraphNrEdges(D) = 0 then
+  if IsEmptyDigraph(D) then
     return [];
   fi;
 
@@ -1502,10 +1495,10 @@ end);
 
 InstallMethod(DegreeMatrix, "for a digraph", [IsDigraph],
 function(D)
-  if DigraphNrVertices(D) = 0 then
-    return [];
+  if DigraphHasVertices(D) then
+    return DiagonalMat(OutDegrees(D));
   fi;
-  return DiagonalMat(OutDegrees(D));
+  return [];
 end);
 
 InstallMethod(LaplacianMatrix, "for a digraph", [IsDigraph],
@@ -1534,12 +1527,8 @@ InstallMethod(HamiltonianPath, "for a digraph", [IsDigraph],
 function(D)
   local path, iter, n;
 
-  if DigraphNrVertices(D) <= 1 and IsEmptyDigraph(D) then
-    if DigraphNrVertices(D) = 0 then
-      return [];
-    else
-      return [1];
-    fi;
+  if DigraphNrVertices(D) <= 1 then
+    return DigraphVertices(D);
   elif not IsStronglyConnectedDigraph(D) then
     return fail;
   fi;
@@ -1830,7 +1819,7 @@ function(D)
     SetDigraphAddAllLoopsAttr(D, C);
     SetIsReflexiveDigraph(C, true);
     SetIsMultiDigraph(C, ismulti);
-    SetDigraphHasLoops(C, DigraphNrVertices(C) > 0);
+    SetDigraphHasLoops(C, DigraphHasVertices(C));
   fi;
   return C;
 end);
@@ -2279,7 +2268,7 @@ InstallMethod(UndirectedSpanningForest, "for a digraph by out-neighbours",
 [IsDigraphByOutNeighboursRep],
 function(D)
   local C, record, data, PreOrderFunc, i;
-  if DigraphNrVertices(D) = 0 then
+  if not DigraphHasVertices(D) then
     return fail;
   fi;
   C := MaximalSymmetricSubdigraph(D);
@@ -2320,9 +2309,9 @@ InstallMethod(UndirectedSpanningForestAttr, "for an immutable digraph",
 InstallMethod(UndirectedSpanningTree, "for a mutable digraph",
 [IsMutableDigraph],
 function(D)
-  if DigraphNrVertices(D) = 0
-      or not IsStronglyConnectedDigraph(D)
-      or not IsConnectedDigraph(UndirectedSpanningForest(DigraphMutableCopy(D)))
+  if not (DigraphHasVertices(D)
+      and IsStronglyConnectedDigraph(D)
+      and IsConnectedDigraph(UndirectedSpanningForest(DigraphMutableCopy(D))))
       then
     return fail;
   fi;
@@ -2336,7 +2325,7 @@ InstallMethod(UndirectedSpanningTreeAttr, "for an immutable digraph",
 [IsImmutableDigraph],
 function(D)
   local out;
-  if DigraphNrVertices(D) = 0
+  if not DigraphHasVertices(D)
       or not IsStronglyConnectedDigraph(D)
       or (HasMaximalSymmetricSubdigraphAttr(D)
           and not IsStronglyConnectedDigraph(MaximalSymmetricSubdigraph(D)))

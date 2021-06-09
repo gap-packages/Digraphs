@@ -1,7 +1,7 @@
 #############################################################################
 ##
 ##  prop.gd
-##  Copyright (C) 2014-19                                James D. Mitchell
+##  Copyright (C) 2014-21                                James D. Mitchell
 ##
 ##  Licensing information can be found in the README file of this package.
 ##
@@ -10,6 +10,14 @@
 
 # meaning it really has multiple edges!!
 DeclareProperty("IsMultiDigraph", IsDigraph);
+
+# TODO Add doc and tests for these three things
+DeclareProperty("DigraphHasVertices", IsDigraph);
+DeclareProperty("DigraphHasEdges", IsDigraph);
+DeclareSynonymAttr("IsNonemptyDigraph", IsDigraph);
+# TODO Add property for having at least two vertices?
+# The {0,1}-vertex digraphs can be exceptions to possible TrueMethods, eg
+# InstallTrueMethod(HasDigraphHasLoops, IsCycleDigraph);
 
 DeclareProperty("DigraphHasLoops", IsDigraph);
 DeclareProperty("IsAcyclicDigraph", IsDigraph);
@@ -92,3 +100,7 @@ InstallTrueMethod(IsSymmetricDigraph, IsCompleteDigraph);
 InstallTrueMethod(IsSymmetricDigraph, IsUndirectedForest);
 InstallTrueMethod(IsTransitiveDigraph, IsTournament and IsAcyclicDigraph);
 InstallTrueMethod(IsUndirectedForest, IsUndirectedTree);
+
+InstallTrueMethod(DigraphHasEdges, IsDigraph and DigraphHasLoops);
+InstallTrueMethod(DigraphHasLoops, IsReflexiveDigraph and DigraphHasVertices);
+InstallTrueMethod(DigraphHasVertices, IsDigraph and DigraphHasEdges);

@@ -109,10 +109,10 @@ function(D, n)
 
   # Only the null D with 0 vertices can be coloured with 0 colours
   if n = 0 then
-    if DigraphNrVertices(D) = 0 then
-      return IdentityTransformation;
+    if DigraphHasVertices(D) then
+      return fail;
     fi;
-    return fail;
+    return IdentityTransformation;
   fi;
 
   # Special case for bipartite testing; works for large graphs
