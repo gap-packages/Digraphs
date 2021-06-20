@@ -1,7 +1,7 @@
 #############################################################################
 ##
 ##  prop.gi
-##  Copyright (C) 2014-19                                James D. Mitchell
+##  Copyright (C) 2014-21                                James D. Mitchell
 ##
 ##  Licensing information can be found in the README file of this package.
 ##
@@ -13,12 +13,46 @@ InstallMethod(IsMultiDigraph, "for a digraph by out-neighbours",
 [IsDigraphByOutNeighboursRep],
 IS_MULTI_DIGRAPH);
 
+InstallImmediateMethod(DigraphNrVertices,
+"for a digraph with known vertices",
+IsDigraph and HasDigraphVertices,
+D -> Length(DigraphVertices(D)));
+
+InstallImmediateMethod(DigraphHasVertices,
+"for a digraph with known number of vertices",
+IsDigraph and HasDigraphNrVertices,
+D -> DigraphNrVertices(D) > 0);
+
+InstallMethod(DigraphHasVertices, "for a digraph", [IsDigraph],
+D -> DigraphNrVertices(D) > 0);
+
+InstallImmediateMethod(DigraphHasEdges,
+"for a digraph with known number of edges", IsDigraph and HasDigraphNrEdges,
+D -> DigraphNrEdges(D) > 0);
+
+InstallImmediateMethod(DigraphHasEdges,
+"for a digraph that knows if it is empty", IsDigraph and HasIsEmptyDigraph,
+D -> not IsEmptyDigraph(D));
+
+InstallImmediateMethod(IsEmptyDigraph,
+"for a digraph that knows if it has edges", IsDigraph and HasDigraphHasEdges,
+D -> not DigraphHasEdges(D));
+
+InstallImmediateMethod(DigraphNrEdges,
+"for a digraph with known edges",
+IsDigraph and HasDigraphEdges,
+D -> Length(DigraphEdges(D)));
+
+InstallMethod(DigraphHasEdges, "for a digraph by out-neighbours",
+[IsDigraphByOutNeighboursRep],
+D -> ForAny(OutNeighbours(D), x -> not IsEmpty(x)));
+
 InstallMethod(IsChainDigraph, "for a digraph", [IsDigraph],
 D -> IsDirectedTree(D) and IsSubset([0, 1], OutDegreeSet(D)));
 
 InstallMethod(IsCycleDigraph, "for a digraph", [IsDigraph],
 function(D)
-  return DigraphNrVertices(D) > 0
+  return DigraphHasVertices(D)
      and DigraphNrEdges(D) = DigraphNrVertices(D)
      and IsStronglyConnectedDigraph(D);
 end);
@@ -162,10 +196,6 @@ function(D)
   return DigraphNrConnectedComponents(D) = 1;
 end);
 
-InstallImmediateMethod(IsAcyclicDigraph, "for a reflexive digraph",
-IsReflexiveDigraph, 0,
-D -> DigraphNrVertices(D) = 0);
-
 InstallImmediateMethod(IsAcyclicDigraph, "for a strongly connected digraph",
 IsStronglyConnectedDigraph, 0,
 D -> DigraphNrVertices(D) <= 1 and IsEmptyDigraph(D));
@@ -307,10 +337,6 @@ end);
 InstallMethod(IsReflexiveDigraph, "for a digraph", [IsDigraph],
 D -> ForAll(DigraphVertices(D), x -> IsDigraphEdge(D, x, x)));
 
-InstallImmediateMethod(DigraphHasLoops, "for a reflexive digraph",
-IsReflexiveDigraph, 0,
-D -> DigraphNrVertices(D) > 0);
-
 InstallMethod(DigraphHasLoops, "for a digraph with adjacency matrix",
 [IsDigraph and HasAdjacencyMatrix],
 function(D)
@@ -425,8 +451,8 @@ D -> DigraphNrEdges(D) = 2 * (DigraphNrVertices(D) - 1)
 
 InstallMethod(IsUndirectedForest, "for a digraph", [IsDigraph],
 function(D)
-  if not IsSymmetricDigraph(D) or DigraphNrVertices(D) = 0
-      or IsMultiDigraph(D) then
+  if not (DigraphHasVertices(D) and IsSymmetricDigraph(D)
+      and not IsMultiDigraph(D)) then
     return false;
   fi;
   return ForAll(DigraphConnectedComponents(D).comps,
