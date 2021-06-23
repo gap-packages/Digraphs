@@ -281,8 +281,7 @@ gap> GeneralisedPetersenGraph(IsMutableDigraph, 9, 4);
     minimum the A1 square (which is dark colored). A legal bishop's move is defined as
     any move which moves the bishop piece to a diagonally adjacent square or to a square
     which can be reached through a series of moves to a diagonally adjacent square, with 
-    all of these small moves being in the same direction.
-    </P>
+    all of these small moves being in the same direction.<P/>
 
     If the optional second argument <A>color</A> is present, then this input should
     have either the string value "dark-square" or "light-square". When this argument
@@ -290,8 +289,7 @@ gap> GeneralisedPetersenGraph(IsMutableDigraph, 9, 4);
     a 1 by 1 board) showing in one component all of the squares reachable by the
     light-square bishop and in the other component all of the squares reachable by the
     dark-square bishop. If <A>color</A> is specified then the function will return only
-    the relevant component as a stand-alone graph.
-    </P>
+    the relevant component as a stand-alone graph.<P/>
     
     If the optional first argument <A>filt</A> is present, then this should
     specify the category or representation the digraph being created will
@@ -598,8 +596,7 @@ gap> KnightsGraph(IsMutable, 3, 9);
     minimum the A1 square (which is dark colored). A legal queen's move is defined as
     any move which moves the queen piece to an adjacent square or to a square
     which can be reached through a series of moves to adjacent squares, with all of these
-    small moves being in the same direction.
-    </P>
+    small moves being in the same direction.<P/>
 
     If the optional first argument <A>filt</A> is present, then this should
     specify the category or representation the digraph being created will
