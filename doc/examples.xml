@@ -301,13 +301,13 @@ gap> GeneralisedPetersenGraph(IsMutableDigraph, 9, 4);
 
 <Example><![CDATA[
 gap> D := BishopsGraph("dark-square", 3, 5);
-<immutable symmetric digraph with 15 vertices, 24 edges>
+<immutable connected symmetric digraph with 8 vertices, 24 edges>
 gap> IsConnectedDigraph(D);       
-false
+true
 gap> BishopsGraph("light-square", 4, 4);
-<immutable symmetric digraph with 16 vertices, 28 edges>
+<immutable connected symmetric digraph with 8 vertices, 28 edges>
 gap> D := BishopsGraph("dark-square", 1, 5);
-<immutable empty digraph with 5 vertices>
+<immutable empty digraph with 3 vertices>
 ]]></Example>
   </Description>
 </ManSection>
