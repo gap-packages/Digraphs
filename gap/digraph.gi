@@ -1047,6 +1047,21 @@ InstallMethod(AsDigraph, "for a function and a transformation",
 InstallMethod(AsDigraph, "for a transformation", [IsTransformation],
 t -> AsDigraphCons(IsImmutableDigraph, t, DegreeOfTransformation(t)));
 
+InstallMethod(AsDigraph, "for a function, a perm, and an integer",
+[IsFunction, IsPerm, IsInt],
+{func, p, n} -> AsDigraphCons(func, AsTransformation(p), n));
+
+InstallMethod(AsDigraph, "for a perm and an integer",
+[IsPerm, IsInt],
+{p, n} -> AsDigraph(AsTransformation(p), n));
+
+InstallMethod(AsDigraph, "for a function and a perm",
+[IsFunction, IsPerm],
+{func, p} -> AsDigraph(func, AsTransformation(p)));
+
+InstallMethod(AsDigraph, "for a perm", [IsPerm],
+p -> AsDigraph(AsTransformation(p)));
+
 InstallMethod(AsBinaryRelation, "for a digraph", [IsDigraphByOutNeighboursRep],
 function(D)
   local rel;
@@ -1144,16 +1159,13 @@ function(filt, digraph, gps, homs)
                          gps,
                          homs);
     else
-      ErrorNoReturn("Digraphs: AsSemigroup usage,\n",
-                    "the second argument must be a join semilattice ",
+      ErrorNoReturn("the second argument must be a join semilattice ",
                     "digraph or a meet semilattice digraph,");
     fi;
   elif not ForAll(gps, x -> IsGroup(x)) then
-    ErrorNoReturn("Digraphs: AsSemigroup usage,\n",
-                  "the third argument must be a list of groups,");
+    ErrorNoReturn("the third argument must be a list of groups,");
   elif not Length(gps) = DigraphNrVertices(digraph) then
-    ErrorNoReturn("Digraphs: AsSemigroup usage,\n",
-                  "the third argument must have length equal to the number ",
+    ErrorNoReturn("the third argument must have length equal to the number ",
                   "of vertices in the second argument,");
   fi;
 
@@ -1168,8 +1180,7 @@ function(filt, digraph, gps, homs)
                              IsGroupHomomorphism(x[3]) and
                              Source(x[3]) = gps[x[1]] and
                              Range(x[3]) = gps[x[2]]) then
-    ErrorNoReturn("Digraphs: AsSemigroup usage,\n",
-                  "the third argument must be a list of triples [i, j, hom] ",
+    ErrorNoReturn("the third argument must be a list of triples [i, j, hom] ",
                   "of length equal to the number of edges in the reflexive ",
                   "transitive reduction of the second argument, where [i, j] ",
                   "is an edge in the reflex transitive reduction and hom is ",
@@ -1185,8 +1196,7 @@ function(filt, digraph, gps, homs)
 
   for edge in DigraphEdges(red) do
     if not IsBound(hom_table[edge[1]][edge[2]]) then
-      ErrorNoReturn("Digraphs: AsSemigroup usage,\n",
-                    "the fourth argument must contain a triple [i, j, hom] ",
+      ErrorNoReturn("the fourth argument must contain a triple [i, j, hom] ",
                     "for each edge [i, j] in the reflexive transitive ",
                     "reduction of the second argument,");
     fi;
@@ -1255,8 +1265,7 @@ function(filt, digraph, gps, homs)
         if IsBound(img[start]) then
           y := PermList(img{[start .. start + deg - 1]} - start + 1);
           if not x = y then
-            ErrorNoReturn("Digraphs: AsSemigroup usage,\n",
-                          "the homomorphisms given must form a commutative",
+            ErrorNoReturn("the homomorphisms given must form a commutative",
                           " diagram,");
           fi;
         fi;
