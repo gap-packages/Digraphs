@@ -521,13 +521,11 @@ true
     graphs. </Q>
     <P/>
 
-    If the optional first argument <A>filt</A> is present, then this should
-    specify the category or representation the digraph being created will
-    belong to. For example, if <A>filt</A> is <Ref Filt="IsMutableDigraph"/>,
-    then the digraph being created will be mutable, if <A>filt</A> is <Ref
-    Filt="IsImmutableDigraph"/>, then the digraph will be immutable.
-    If the optional first argument <A>filt</A> is not present, then <Ref
-      Filt="IsImmutableDigraph"/> is used by default.<P/>
+    For more on the Cartesian products and line graphs see
+    <Ref Oper="DigraphCartesianProduct"/> and
+    <URL>https://en.wikipedia.org/wiki/Line_graph</URL>. <P/>
+
+    &STANDARD_FILT_TEXT;
 
 <Example><![CDATA[
 gap> D := RooksGraph(7, 4);
