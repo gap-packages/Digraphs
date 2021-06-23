@@ -382,7 +382,7 @@ function(filt, color, m, n)
 
   vertices := EuclideanQuotient(m * n, 2);
 
-  if IsOddInt(m * n) and color = "light-square" then
+  if IsOddInt(m * n) and color = "dark-square" then
     vertices := vertices + 1;
   fi;
 
@@ -395,12 +395,12 @@ function(filt, color, m, n)
 
   for i in [1 .. (m - 1)] do
     for j in [1 .. (n - 1)] do
-      if IsEvenInt(i + j) and color = "light-square"
-          or IsOddInt(i + j) and color = "dark-square" then
+      if IsEvenInt(i + j) and color = "dark-square"
+          or IsOddInt(i + j) and color = "light-square" then
         v := (i - 1) * n + j;
         DigraphAddEdge(D1, [map(v), map(v + n + 1)]);
-      elif IsEvenInt(i + j) and color = "dark-square"
-          or IsOddInt(i + j) and color = "light-square" then
+      elif IsEvenInt(i + j) and color = "light-square"
+          or IsOddInt(i + j) and color = "dark-square" then
         v := (i - 1) * n + j + 1;
         DigraphAddEdge(D2, [map(v), map(v + n - 1)]);
       fi;
@@ -421,7 +421,7 @@ function(filt, color, m, n)
   D := MakeImmutable(BishopsGraphCons(IsMutableDigraph, color, m, n));
   SetIsMultiDigraph(D, false);
   SetIsSymmetricDigraph(D, true);
-  SetIsConnectedDigraph(D, m * n = 1);
+  SetIsConnectedDigraph(D, true);
   return D;
 end);
 
@@ -519,11 +519,10 @@ InstallMethod(QueensGraphCons,
 "for IsMutableDigraph and two integers",
 [IsMutableDigraph, IsPosInt, IsPosInt],
 function(filt, m, n)
-  local D, D1, D2, D3;
+  local D, D1, D2;
   D1 := RooksGraphCons(filt, m, n);
-  D2 := BishopsGraphCons(filt, "dark-square", m, n);
-  D3 := BishopsGraphCons(filt, "light-square", m, n);
-  D := DigraphEdgeUnion(D1, D2, D3);
+  D2 := BishopsGraphCons(filt, m, n);
+  D := DigraphEdgeUnion(D1, D2);
   return D;
 end);
 
