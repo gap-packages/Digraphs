@@ -90,3 +90,11 @@ DeclareOperation("TadpoleGraph", [IsFunction, IsPosInt, IsPosInt]);
 DeclareConstructor("BookGraphCons", [IsDigraph, IsPosInt]);
 DeclareOperation("BookGraph", [IsPosInt]);
 DeclareOperation("BookGraph", [IsFunction, IsPosInt]);
+
+DeclareConstructor("StackedBookGraphCons", [IsDigraph, IsPosInt, IsPosInt]);
+DeclareOperation("StackedBookGraph", [IsPosInt, IsPosInt]);
+DeclareOperation("StackedBookGraph", [IsFunction, IsPosInt, IsPosInt]);
+
+DeclareConstructor("BinaryTreeCons", [IsDigraph, IsPosInt]);
+DeclareOperation("BinaryTree", [IsPosInt]);
+DeclareOperation("BinaryTree", [IsFunction, IsPosInt]);
