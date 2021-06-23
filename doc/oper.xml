@@ -1930,7 +1930,7 @@ gap> DigraphDijkstra(D, 1, 2);
   <Description>
   If <A>D1</A> and <A>D2</A> are digraphs without multiple edges, then
   <C>ModularProduct</C> calculates the <E>modular product digraph</E>
-  (<C>MPD</C>) of <A>D1</A>and <A>D2</A>.
+  (<C>MPD</C>) of <A>D1</A> and <A>D2</A>.
 
   <C>MPD</C> has vertex set <C>V1 x V2</C> where <C>V1</C> is the vertex set of
   <A>D1</A> and <C>V2</C> is the vertex set of <A>D2</A> (a vertex
