@@ -684,6 +684,7 @@ gap> KnightsGraph(IsMutable, 3, 9);
     any move which moves the queen piece to an adjacent square or to a square
     which can be reached through a series of moves to adjacent squares, with all of these
     small moves being in the same direction.
+    </P>
 
     If the optional first argument <A>filt</A> is present, then this should
     specify the category or representation the digraph being created will
