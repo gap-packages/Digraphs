@@ -13,23 +13,10 @@ InstallMethod(DigraphNrVertices, "for a digraph by out-neighbours",
 
 InstallGlobalFunction(OutNeighbors, OutNeighbours);
 
-# The next method is (yet another) DFS which simultaneously computes:
-# 1. *articulation points* as described in
-#   https://www.eecs.wsu.edu/~holder/courses/CptS223/spr08/slides/graphapps.pdf
-# 2. *bridges* as described in https://stackoverflow.com/q/28917290/
-#   (this is a minor adaption of the algorithm described in point 1).
-# 3. a *strong orientation* as alluded to somewhere on the internet that I can
-#    no longer find. It's essentially just "orient every edge in the DFS tree
-#    away from the root, and every other edge (back edges) from the node with
-#    higher `pre` value to the one with lower `pre` value (i.e. they point
-#    backwards from later nodes in the DFS to earlier ones). If the graph is
-#    bridgeless, then it is guaranteed that the orientation of the last
-#    sentence is strongly connected."
-
 BindGlobal("DIGRAPHS_ArticulationPointsBridgesStrongOrientation",
 function(D)
-  local N, copy, articulation_points, bridges, orientation, nbs, counter, pre,
-        low, nr_children, stack, u, v, i, w, connected;
+  local N, copy, PostOrderFunc, PreOrderFunc, AncestorCrossFunc, data, record,
+  connected;
 
   N := DigraphNrVertices(D);
 
@@ -41,115 +28,109 @@ function(D)
     # the graph disconnected), no bridges, strong orientation (since
     # the digraph with 0 nodes is strongly connected).
     return [true, [], [], D];
-  elif not IsSymmetricDigraph(D) then
-    copy := DigraphSymmetricClosure(DigraphMutableCopyIfMutable(D));
+  elif not IsSymmetricDigraph(D) or IsMultiDigraph(D) then
+    copy := DigraphSymmetricClosure(DigraphMutableCopy(D));
+    copy := DigraphRemoveAllMultipleEdges(copy);
     MakeImmutable(copy);
   else
     copy := D;
   fi;
 
+  PostOrderFunc := function(record, data)
+    local child, current;
+    child := record.child;
+    current := record.parent[child];
+    if record.preorder[child] > record.preorder[current] then
+      # stops the duplication of articulation_points
+      if current <> 1 and data.low[child] >= record.preorder[current] then
+        Add(data.articulation_points, current);
+      fi;
+      if data.low[child] = record.preorder[child] then
+        Add(data.bridges, [current, child]);
+      fi;
+      if data.low[child] < data.low[current] then
+        data.low[current] := data.low[child];
+      fi;
+    fi;
+  end;
+
+  PreOrderFunc := function(record, data)
+    local current, parent;
+    current := record.current;
+    if current <> 1 then
+      parent := record.parent[current];
+      if parent = 1 then
+        data.nr_children := data.nr_children + 1;
+      fi;
+      data.orientation[parent][current] := true;
+    fi;
+    data.counter := data.counter + 1;
+    data.low[current] := data.counter;
+  end;
+
+  AncestorCrossFunc := function(record, data)
+    local current, child, parent;
+    current := record.current;
+    child := record.child;
+    parent := record.parent[current];
+    # current -> child is a back edge
+    if child <> parent and record.preorder[child] < data.low[current] then
+      data.low[current] := record.preorder[child];
+    fi;
+    data.orientation[current][child] := not data.orientation[child][current];
+  end;
+
+  data := rec();
+
   # outputs
-  articulation_points := [];
-  bridges             := [];
-  orientation         := List([1 .. N], x -> BlistList([1 .. N], []));
-
-  # Get out-neighbours once, to avoid repeated copying for mutable digraphs.
-  nbs := OutNeighbours(copy);
-
-  # number of nodes encountered in the search so far
-  counter := 0;
-
-  # the order in which the nodes are visited, -1 indicates "not yet visited".
-  pre := ListWithIdenticalEntries(N, -1);
+  data.articulation_points := [];
+  data.bridges             := [];
+  data.orientation         := List([1 .. N], x -> BlistList([1 .. N], []));
 
   # low[i] is the lowest value in pre currently reachable from node i.
-  low := [];
+  data.low := [];
+
+  # number of nodes encountered in the search so far
+  data.counter := 0;
 
   # nr_children of node 1, for articulation points the root node (1) is an
   # articulation point if and only if it has at least 2 children.
-  nr_children := 0;
+  data.nr_children := 0;
 
-  stack := Stack();
-  u := 1;
-  v := 1;
-  i := 0;
-
-  repeat
-    if pre[v] <> -1 then
-      # backtracking
-      i := Pop(stack);
-      v := Pop(stack);
-      u := Pop(stack);
-      w := nbs[v][i];
-
-      if v <> 1 and low[w] >= pre[v] then
-        Add(articulation_points, v);
-      fi;
-      if low[w] = pre[w] then
-        Add(bridges, [v, w]);
-      fi;
-      if low[w] < low[v] then
-        low[v] := low[w];
-      fi;
-    else
-      # diving - part 1
-      counter := counter + 1;
-      pre[v]  := counter;
-      low[v]  := counter;
-    fi;
-    i := PositionProperty(nbs[v], w -> w <> v, i);
-    while i <> fail do
-      w := nbs[v][i];
-      if pre[w] <> -1 then
-        # v -> w is a back edge
-        if w <> u and pre[w] < low[v] then
-          low[v] := pre[w];
-        fi;
-        orientation[v][w] := not orientation[w][v];
-        i := PositionProperty(nbs[v], w -> w <> v, i);
-      else
-        # diving - part 2
-        if v = 1 then
-          nr_children := nr_children + 1;
-        fi;
-        orientation[v][w] := true;
-        Push(stack, u);
-        Push(stack, v);
-        Push(stack, i);
-        u := v;
-        v := w;
-        i := 0;
-        break;
-      fi;
-    od;
-  until Size(stack) = 0;
-
-  if counter = DigraphNrVertices(D) then
+  record := NewDFSRecord(copy);
+  ExecuteDFS(record,
+             data,
+             1,
+             PreOrderFunc,
+             PostOrderFunc,
+             AncestorCrossFunc,
+             AncestorCrossFunc);
+  if data.counter = DigraphNrVertices(D) then
     connected := true;
-    if nr_children > 1 then
-      Add(articulation_points, 1);
+    if data.nr_children > 1 then
+      Add(data.articulation_points, 1);
     fi;
-    if not IsEmpty(bridges) then
-      orientation := fail;
+    if not IsEmpty(data.bridges) then
+      data.orientation := fail;
     else
-      orientation := DigraphByAdjacencyMatrix(DigraphMutabilityFilter(D),
-                                              orientation);
+      data.orientation := DigraphByAdjacencyMatrix(DigraphMutabilityFilter(D),
+                                                    data.orientation);
     fi;
   else
-    connected           := false;
-    articulation_points := [];
-    bridges             := [];
-    orientation         := fail;
+    connected                := false;
+    data.articulation_points := [];
+    data.bridges             := [];
+    data.orientation         := fail;
   fi;
   if IsImmutableDigraph(D) then
     SetIsConnectedDigraph(D, connected);
-    SetArticulationPoints(D, articulation_points);
-    SetBridges(D, bridges);
+    SetArticulationPoints(D, data.articulation_points);
+    SetBridges(D, data.bridges);
     if IsSymmetricDigraph(D) then
-      SetStrongOrientationAttr(D, orientation);
+      SetStrongOrientationAttr(D, data.orientation);
     fi;
   fi;
-  return [connected, articulation_points, bridges, orientation];
+  return [connected, data.articulation_points, data.bridges, data.orientation];
 end);
 
 InstallMethod(ArticulationPoints, "for a digraph by out-neighbours",
@@ -174,6 +155,201 @@ function(D)
   return DIGRAPHS_ArticulationPointsBridgesStrongOrientation(D)[4];
 end);
 
+# Utility function to calculate the maximal independent sets (as BLists) of a
+# subgraph induced by removing a set of vertices.
+BindGlobal("DIGRAPHS_MaximalIndependentSetsSubtractedSet",
+function(I, subtracted_set, size_bound)
+  local induced_mis, temp, i;
+  # First remove all vertices in the subtracted set from each MIS
+  temp := List(I, i -> DifferenceBlist(i, subtracted_set));
+  induced_mis := [];
+  # Then remove any sets which are no longer maximal
+  # Sort in decreasing size
+  Sort(temp, {x, y} -> SizeBlist(x) > SizeBlist(y));
+  # Then check elements from back to front for if they are a subset
+  for i in temp do
+    if SizeBlist(i) <= size_bound and
+        ForAll(induced_mis, x -> not IsSubsetBlist(x, i)) then
+      Add(induced_mis, i);
+    fi;
+  od;
+  return induced_mis;
+end
+);
+
+BindGlobal("DIGRAPHS_ChromaticNumberLawler",
+function(D)
+  local n, vertices, subset_colours, s, S, i, I, subset_iter, x,
+  mis, subset_mis;
+  n := DigraphNrVertices(D);
+  vertices := List(DigraphVertices(D));
+  # Store all the Maximal Independent Sets, which can later be used for
+  # calculating the maximal independent sets of induced subgraphs.
+  mis := DigraphMaximalIndependentSets(D);
+  # Convert each MIS to a Blist
+  mis := List(mis, x -> BlistList(vertices, x));
+  # Store current best colouring for each subset
+  subset_colours := ListWithIdenticalEntries(2 ^ n, infinity);
+  # Empty set can be colouring with only one colour.
+  subset_colours[1] := 0;
+  # Iterator for blist subsets.
+  subset_iter := ListWithIdenticalEntries(n, [false, true]);
+  subset_iter := IteratorOfCartesianProduct2(subset_iter);
+  # Skip the first one, which should be the empty set.
+  S := NextIterator(subset_iter);
+  # Iterate over all vertex subsets.
+  for S in subset_iter do
+    # Cartesian iterator is ascending lexicographically, but we want reverse
+    # lexicographic ordering. We treat this as iterating over the complement.
+    # Index the current subset that is being iterated over.
+    s := 1;
+    for x in [1 .. n] do
+      # Need to negate, as we are iterating over the complement.
+      if not S[x] then
+        s := s + 2 ^ (x - 1);
+      fi;
+    od;
+    # Iterate over the maximal independent sets of V[S]
+    subset_mis := DIGRAPHS_MaximalIndependentSetsSubtractedSet(mis, S, infinity);
+    # Flip the list, as we now need the actual set.
+    FlipBlist(S);
+    for I in subset_mis do
+        # Calculate S \ I. This is destructive, but is undone.
+        SubtractBlist(S, I);
+        # Index S \ I
+        i := 1;
+        for x in [1 .. n] do
+          if S[x] then
+            i := i + 2 ^ (x - 1);
+          fi;
+        od;
+        # The chromatic number of this subset is the minimum value of all
+        # the maximal independent subsets of D[S].
+        subset_colours[s] := Minimum(subset_colours[s], subset_colours[i] + 1);
+        # Undo the changes to the subset.
+        UniteBlist(S, I);
+    od;
+  od;
+  return subset_colours[2 ^ n];
+end
+);
+
+BindGlobal("DIGRAPHS_UnderThreeColourable",
+function(D)
+  local nr;
+  nr := DigraphNrVertices(D);
+  if DigraphHasLoops(D) then
+    ErrorNoReturn("the argument <D> must be a digraph with no loops,");
+  elif nr = 0 then
+    return 0;  # chromatic number = 0 iff <D> has 0 verts
+  elif IsNullDigraph(D) then
+    return 1;  # chromatic number = 1 iff <D> has >= 1 verts & no edges
+  elif IsBipartiteDigraph(D) then
+    return 2;  # chromatic number = 2 iff <D> has >= 2 verts & is bipartite
+               # <D> has at least 2 vertices at this stage
+  elif DigraphColouring(D, 3) <> fail then
+               # Check if there is a 3 colouring
+    return 3;
+  fi;
+  return infinity;
+end
+);
+
+BindGlobal("DIGRAPHS_ChromaticNumberByskov",
+function(D)
+  local n, a, vertices, subset_colours, S, i, j, I, subset_iter,
+  index_subsets, vertex_blist, k, MIS;
+
+  n := DigraphNrVertices(D);
+  vertices := DigraphVertices(D);
+  vertex_blist := BlistList(vertices, vertices);
+  # Store all the Maximal Independent Sets, which can later be used for
+  # calculating the maximal independent sets of induced subgraphs.
+  MIS := DigraphMaximalIndependentSets(D);
+  # Convert each MIS to a Blist
+  MIS := List(MIS, x -> BlistList(vertices, x));
+  # Store current best colouring for each subset
+  subset_colours := ListWithIdenticalEntries(2 ^ n, infinity);
+  # Empty set is 0 colourable
+  subset_colours[1] := 0;
+  # Function to index the subsets of the vertices of D
+  index_subsets := function(subset)
+    local x, index;
+    index := 1;
+    for x in [1 .. n] do
+      if subset[x] then
+        index := index + 2 ^ (x - 1);
+      fi;
+    od;
+    return index;
+  end;
+  # Iterate over vetex subsets
+  subset_iter := IteratorOfCombinations(vertices);
+  # Skip the first one, which should be the empty set
+  S := NextIterator(subset_iter);
+  Assert(1, IsEmpty(S), "First set from iterator should be the empty set");
+  # First find the 3 colourable subgraphs of D
+  for S in subset_iter do
+    a := DIGRAPHS_UnderThreeColourable(InducedSubdigraph(D, S));
+    S := BlistList(vertices, S);
+    i := index_subsets(S);
+    # Mark this as three or less colourable if it is.
+    subset_colours[i] := Minimum(a, subset_colours[i]);
+  od;
+  # Process 4 colourable subgraphs
+  for I in MIS do
+    SubtractBlist(vertex_blist, I);
+    # Iterate over all subsets of V(D) \ I as blists
+    # This is done by taking the cartesian product of n copies of [true, false]
+    # or [true] if the vertex is in I. The [true] is used as each element will
+    # be flipped to get reverse lexicographic ordering.
+    subset_iter := EmptyPlist(n);
+    for i in [1 .. n] do
+      if I[i] then
+        subset_iter[i] := [true];
+      else
+        subset_iter[i] := [true, false];
+      fi;
+    od;
+    subset_iter := IteratorOfCartesianProduct2(subset_iter);
+    # Skip the empty set.
+    NextIterator(subset_iter);
+    for S in subset_iter do
+      FlipBlist(S);
+      i := index_subsets(S);
+      if subset_colours[i] = 3 then
+        # Index union of S and I
+        j := index_subsets(UnionBlist(S, I));
+        subset_colours[j] := Minimum(subset_colours[j], 4);
+      fi;
+    od;
+    # Undo the changes made.
+    UniteBlist(vertex_blist, I);
+  od;
+  # Iterate over vetex subset blists.
+  subset_iter := ListWithIdenticalEntries(n, [true, false]);
+  subset_iter := IteratorOfCartesianProduct2(subset_iter);
+  # Skip the first one, which should be the empty set
+  S := NextIterator(subset_iter);
+  for S in subset_iter do
+    # Cartesian iteratator goes in lexicographic order, but we want reverse.
+    FlipBlist(S);
+    # Index the current subset that is being iterated over
+    i := index_subsets(S);
+    if 4 <= subset_colours[i] and subset_colours[i] < infinity then
+      k := SizeBlist(S) / subset_colours[i];
+      # Iterate over the maximal independent sets of D[V \ S]
+      for I in DIGRAPHS_MaximalIndependentSetsSubtractedSet(MIS, S, k) do
+        # Index S union I
+        j := index_subsets(UnionBlist(S, I));
+        subset_colours[j] := Minimum(subset_colours[j], subset_colours[i] + 1);
+      od;
+    fi;
+  od;
+  return subset_colours[2 ^ n];
+end
+);
+
 InstallMethod(ChromaticNumber, "for a digraph by out-neighbours",
 [IsDigraphByOutNeighboursRep],
 function(D)
@@ -190,6 +366,13 @@ function(D)
   elif IsBipartiteDigraph(D) then
     return 2;  # chromatic number = 2 iff <D> has >= 2 verts & is bipartite
                # <D> has at least 2 vertices at this stage
+  fi;
+
+  # Value option for alternative dispatch
+  if ValueOption("lawler") <> fail then
+    return DIGRAPHS_ChromaticNumberLawler(D);
+  elif ValueOption("byskov") <> fail then
+    return DIGRAPHS_ChromaticNumberByskov(D);
   fi;
 
   # The chromatic number of <D> is at least 3 and at most nr
@@ -500,7 +683,37 @@ end);
 
 InstallMethod(DigraphTopologicalSort, "for a digraph by out-neighbours",
 [IsDigraphByOutNeighboursRep],
-D -> DIGRAPH_TOPO_SORT(OutNeighbours(D)));
+function(D)
+  local i, record, num_vertices, data, AncestorFunc, PostOrderFunc;
+  if DigraphNrVertices(D) = 0 then
+    return [];
+  fi;
+  record := NewDFSRecord(D);
+  num_vertices := DigraphNrVertices(D);
+  data := rec(count := 0,
+              out := ListWithIdenticalEntries(num_vertices, 0));
+  AncestorFunc := function(record, data)
+    if record.current <> record.child then
+      record.stop := true;
+    fi;
+  end;
+  PostOrderFunc := function(record, data)
+    data.count := data.count + 1;
+    data.out[data.count] := record.child;
+  end;
+  for i in DigraphVertices(D) do
+    if record.preorder[i] <> -1 then
+      continue;
+    fi;
+    ExecuteDFS(record, data, i, DFSDefault,
+                PostOrderFunc, AncestorFunc,
+                DFSDefault);
+    if record.stop then
+      return fail;
+    fi;
+  od;
+  return data.out;
+end);
 
 InstallMethod(DigraphStronglyConnectedComponents,
 "for a digraph by out-neighbours",
@@ -786,7 +999,7 @@ function(D, v)
   #
   # localParameters is a list of 3-tuples [a_{i - 1}, b_{i - 1}, c_{i - 1}] for
   # each i between 1 and localDiameter where c_i (respectively a_i and b_i) is
-  # the number of vertices at distance i − 1 (respectively i and i + 1) from v
+  # the number of vertices at distance i - 1 (respectively i and i + 1) from v
   # that are adjacent to a vertex w at distance i from v.
 
   # <tree> gives a shortest path spanning tree rooted at <v> and is used by
@@ -2065,18 +2278,30 @@ InstallMethod(DigraphReflexiveTransitiveReductionAttr,
 InstallMethod(UndirectedSpanningForest, "for a digraph by out-neighbours",
 [IsDigraphByOutNeighboursRep],
 function(D)
-  local C;
+  local C, record, data, PreOrderFunc, i;
   if DigraphNrVertices(D) = 0 then
     return fail;
   fi;
-  C := MaximalSymmetricSubdigraph(D)!.OutNeighbours;
-  C := DIGRAPH_SYMMETRIC_SPANNING_FOREST(C);
+  C := MaximalSymmetricSubdigraph(D);
+  record := NewDFSRecord(C);
+  data := List(DigraphVertices(C), x -> []);
+
+  PreOrderFunc := function(record, data)
+    if record.parent[record.current] <> record.current then
+      Add(data[record.parent[record.current]], record.current);
+      Add(data[record.current], record.parent[record.current]);
+    fi;
+  end;
+  for i in DigraphVertices(C) do
+    ExecuteDFS(record, data, i, PreOrderFunc, DFSDefault,
+                 DFSDefault, DFSDefault);
+  od;
   if IsMutableDigraph(D) then
-    D!.OutNeighbours := C;
+    D!.OutNeighbours := data;
     ClearDigraphEdgeLabels(D);
     return D;
   fi;
-  C := ConvertToImmutableDigraphNC(C);
+  C := ConvertToImmutableDigraphNC(data);
   SetUndirectedSpanningForestAttr(D, C);
   SetIsUndirectedForest(C, true);
   SetIsMultiDigraph(C, false);

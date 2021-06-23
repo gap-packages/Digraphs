@@ -703,7 +703,7 @@ InstallMethod(TriangularGridGraph, "for two positive integers",
 [IsPosInt, IsPosInt],
 {n, k} -> TriangularGridGraphCons(IsImmutableDigraph, n, k));
 
-InstallMethod(StarDigraphCons, "for IsMutableDigraph and a positive integer",
+InstallMethod(StarGraphCons, "for IsMutableDigraph and a positive integer",
 [IsMutableDigraph, IsPosInt],
 function(filt, k)
   if k = 1 then
@@ -712,19 +712,19 @@ function(filt, k)
   return CompleteBipartiteDigraph(IsMutableDigraph, 1, k - 1);
 end);
 
-InstallMethod(StarDigraph, "for a function and a positive integer",
+InstallMethod(StarGraph, "for a function and a positive integer",
 [IsFunction, IsPosInt],
-StarDigraphCons);
+StarGraphCons);
 
-InstallMethod(StarDigraph, "for integer", [IsPosInt],
-{k} -> StarDigraphCons(IsImmutableDigraph, k));
+InstallMethod(StarGraph, "for integer", [IsPosInt],
+{k} -> StarGraphCons(IsImmutableDigraph, k));
 
-InstallMethod(StarDigraphCons,
+InstallMethod(StarGraphCons,
 "for IsImmutableDigraph and a positive integer",
 [IsImmutableDigraph, IsPosInt],
 function(filt, k)
   local D;
-  D := MakeImmutable(StarDigraph(IsMutableDigraph, k));
+  D := MakeImmutable(StarGraph(IsMutableDigraph, k));
   SetIsMultiDigraph(D, false);
   SetIsEmptyDigraph(D, k = 1);
   SetIsCompleteBipartiteDigraph(D, k > 1);
@@ -828,7 +828,7 @@ function(filt, m, n)
     " greater than one");
   fi;
   D := EmptyDigraph(IsMutable, 1);
-  list := Concatenation([D], ListWithIdenticalEntries(m, StarDigraph(n)));
+  list := Concatenation([D], ListWithIdenticalEntries(m, StarGraph(n)));
   DigraphDisjointUnion(list);  # changes <D> in place
   for j in [0 .. (m - 1)] do
     DigraphAddEdges(D, [[1, (j * n + 3)], [(j * n + 3), 1]]);
@@ -856,7 +856,7 @@ InstallMethod(BananaTree, "for a function and two positive integers",
 [IsFunction, IsPosInt, IsPosInt],
 {filt, m, n} -> BananaTreeCons(filt, m, n));
 
-InstallMethod(TadpoleDigraphCons,
+InstallMethod(TadpoleGraphCons,
 "for IsMutableDigraph and two positive integers",
 [IsMutableDigraph, IsPosInt, IsPosInt],
 function(filt, m, n)
@@ -871,48 +871,103 @@ function(filt, m, n)
   return graph;
 end);
 
-InstallMethod(TadpoleDigraph, "for a function and two positive integers",
+InstallMethod(TadpoleGraph, "for a function and two positive integers",
 [IsFunction, IsPosInt, IsPosInt],
-TadpoleDigraphCons);
+TadpoleGraphCons);
 
-InstallMethod(TadpoleDigraph, "for two positive integers", [IsPosInt, IsPosInt],
-{m, n} -> TadpoleDigraphCons(IsImmutableDigraph, m, n));
+InstallMethod(TadpoleGraph, "for two positive integers", [IsPosInt, IsPosInt],
+{m, n} -> TadpoleGraphCons(IsImmutableDigraph, m, n));
 
-InstallMethod(TadpoleDigraphCons,
+InstallMethod(TadpoleGraphCons,
 "for IsImmutableDigraph and two positive integers",
 [IsImmutableDigraph, IsPosInt, IsPosInt],
 function(filt, m, n)
   local D;
-  D := MakeImmutable(TadpoleDigraph(IsMutableDigraph, m, n));
+  D := MakeImmutable(TadpoleGraph(IsMutableDigraph, m, n));
   SetIsMultiDigraph(D, false);
   SetIsSymmetricDigraph(D, true);
   return D;
 end);
 
-InstallMethod(BookDigraphCons,
+InstallMethod(BookGraphCons,
 "for IsMutableDigraph and one positive integer",
 [IsMutableDigraph, IsPosInt],
-function(filt, m)
-  local book;
-  book := CompleteDigraph(IsMutable, 2);
-  return DigraphCartesianProduct(book, StarDigraph(IsMutable, m + 1));
-end);
+{filt, m} -> StackedBookGraph(filt, m, 2));
 
-InstallMethod(BookDigraph, "for a function and one positive integer",
-[IsFunction, IsPosInt],
-BookDigraphCons);
+InstallMethod(BookGraph, "for a function and a positive integer",
+[IsFunction, IsPosInt], BookGraphCons);
 
-InstallMethod(BookDigraph, "for one positive integer", [IsPosInt],
-{m} -> BookDigraphCons(IsImmutableDigraph, m));
+InstallMethod(BookGraph, "for a positive integer", [IsPosInt],
+m -> BookGraphCons(IsImmutableDigraph, m));
 
-InstallMethod(BookDigraphCons,
-"for IsImmutableDigraph and one positive integer",
+InstallMethod(BookGraphCons,
+"for IsImmutableDigraph and a positive integer",
 [IsImmutableDigraph, IsPosInt],
 function(filt, m)
   local D;
-  D := MakeImmutable(BookDigraph(IsMutableDigraph, m));
+  D := MakeImmutable(BookGraph(IsMutableDigraph, m));
   SetIsMultiDigraph(D, false);
   SetIsSymmetricDigraph(D, true);
   SetIsBipartiteDigraph(D, true);
   return D;
 end);
+
+InstallMethod(StackedBookGraphCons,
+"for IsMutableDigraph and two positive integers",
+[IsMutableDigraph, IsPosInt, IsPosInt],
+function(filt, m, n)
+  local book;
+  book := DigraphSymmetricClosure(ChainDigraph(IsMutable, n));
+  return DigraphCartesianProduct(book, StarGraph(IsMutable, m + 1));
+end);
+
+InstallMethod(StackedBookGraph, "for a function and two positive integers",
+[IsFunction, IsPosInt, IsPosInt],
+StackedBookGraphCons);
+
+InstallMethod(StackedBookGraph, "for two positive integers",
+[IsPosInt, IsPosInt],
+{m, n} -> StackedBookGraphCons(IsImmutableDigraph, m, n));
+
+InstallMethod(StackedBookGraphCons,
+"for IsImmutableDigraph and two positive integers",
+[IsImmutableDigraph, IsPosInt, IsPosInt],
+function(filt, m, n)
+  local D;
+  D := MakeImmutable(StackedBookGraph(IsMutableDigraph, m, n));
+  SetIsMultiDigraph(D, false);
+  SetIsSymmetricDigraph(D, true);
+  SetIsBipartiteDigraph(D, true);
+  return D;
+end);
+
+InstallMethod(BinaryTreeCons,
+"for IsMutableDigraph and positive integer",
+[IsMutableDigraph, IsPosInt],
+function(filt, depth)
+  local D, x, i, j;
+  D := [[]];
+  for i in [1 .. depth - 1] do
+    for j in [1 .. 2 ^ i] do
+      x := DIGRAPHS_BlistNumber(j, i){[2 .. i]};
+      Add(D, [DIGRAPHS_NumberBlist(x) + (2 ^ (i - 1)) - 1]);
+    od;
+  od;
+  return Digraph(IsMutableDigraph, D);
+end);
+
+InstallMethod(BinaryTreeCons,
+"for IsImmutableDigraph and positive integer",
+[IsImmutableDigraph, IsPosInt],
+function(filt, depth)
+  local D;
+  D := BinaryTreeCons(IsMutableDigraph, depth);
+  MakeImmutable(D);
+  return D;
+end);
+
+InstallMethod(BinaryTree, "for a positive integer", [IsPosInt],
+depth -> BinaryTreeCons(IsImmutableDigraph, depth));
+
+InstallMethod(BinaryTree, "for a function and a positive integer",
+[IsFunction, IsPosInt], BinaryTreeCons);

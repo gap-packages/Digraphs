@@ -93,14 +93,16 @@
     <#Include Label="KingsGraph">
     <#Include Label="SquareGridGraph">
     <#Include Label="TriangularGridGraph">
-    <#Include Label="StarDigraph">
     <#Include Label="RooksGraph">
-    <#Include Label="KnightsGraph">
     <#Include Label="QueensGraph">
-    <#Include Label="HaarGraph">
     <#Include Label="BananaTree">
-    <#Include Label="TadpoleDigraph">
-    <#Include Label="BookDigraph">
+    <#Include Label="HaarGraph">
+    <#Include Label="KnightsGraph">
+    <#Include Label="StarGraph">
+    <#Include Label="TadpoleGraph">
+    <#Include Label="BookGraph">
+    <#Include Label="StackedBookGraph">
+    <#Include Label="BinaryTree">
   </Section>
 
 </Chapter>
