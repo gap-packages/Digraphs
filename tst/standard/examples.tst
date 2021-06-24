@@ -229,16 +229,16 @@ gap> JohnsonDigraph(IsMutableDigraph, 4, 2);
 <mutable digraph with 6 vertices, 24 edges>
 
 #  BishopsDigraph
-gap> D := BishopsGraph("dark-square", 7, 9);
+gap> D := BishopsGraph("dark", 7, 9);
 <immutable connected symmetric digraph with 32 vertices, 272 edges>
 gap> IsConnectedDigraph(D);
 true
-gap> D := BishopGraph("light-square", 4, 3);
+gap> D := BishopGraph("light", 4, 3);
 <immutable connected symmetric digraph with 6 vertices, 16 edges>
 gap> OutNeighbours(D);
 [ [ 2, 3 ], [ 1, 4, 6 ], [ 1, 4, 5 ], [ 2, 3, 5, 6 ], [ 3, 4 ], [ 2, 4 ] ]
 gap> BishopsGraph("blue", 8, 4);
-Error, the argument <color> must be either "dark-square" or "light-square".
+Error, the argument <color> must be either "dark" or "light".
 gap> D := BishopsGraph(5, 4);       
 <immutable symmetric digraph with 20 vertices, 80 edges>
 gap> IsConnectedDigraph(D);

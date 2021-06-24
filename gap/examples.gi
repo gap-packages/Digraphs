@@ -375,19 +375,19 @@ InstallMethod(BishopsGraphCons,
 function(filt, color, m, n)
   local D, D1, D2, i, j, v, vertices, map;
 
-  if not (color = "dark-square" or color = "light-square") then
+  if not (color = "dark" or color = "light") then
     ErrorNoReturn(
-    "the argument <color> must be either \"dark-square\" or \"light-square\".");
+    "the argument <color> must be either \"dark\" or \"light\".");
   fi;
 
   vertices := EuclideanQuotient(m * n, 2);
 
-  if IsOddInt(m * n) and color = "dark-square" then
+  if IsOddInt(m * n) and color = "dark" then
     vertices := vertices + 1;
   fi;
 
-  D1 := EmptyDigraph(filt, vertices);
-  D2 := EmptyDigraph(filt, vertices);
+  D1 := EmptyDigraph(IsMutableDigraph, vertices);
+  D2 := EmptyDigraph(IsMutableDigraph, vertices);
 
   map := function(a)
       return EuclideanQuotient(a + 1, 2);
@@ -395,12 +395,12 @@ function(filt, color, m, n)
 
   for i in [1 .. (m - 1)] do
     for j in [1 .. (n - 1)] do
-      if IsEvenInt(i + j) and color = "dark-square"
-          or IsOddInt(i + j) and color = "light-square" then
+      if IsEvenInt(i + j) and color = "dark"
+          or IsOddInt(i + j) and color = "light" then
         v := (i - 1) * n + j;
         DigraphAddEdge(D1, [map(v), map(v + n + 1)]);
-      elif IsEvenInt(i + j) and color = "light-square"
-          or IsOddInt(i + j) and color = "dark-square" then
+      elif IsEvenInt(i + j) and color = "light"
+          or IsOddInt(i + j) and color = "dark" then
         v := (i - 1) * n + j + 1;
         DigraphAddEdge(D2, [map(v), map(v + n - 1)]);
       fi;
@@ -440,8 +440,8 @@ InstallMethod(BishopsGraphCons,
 function(filt, m, n)
   local D, D1, D2, i, j, v;
 
-  D1 := EmptyDigraph(filt, m * n);
-  D2 := EmptyDigraph(filt, m * n);
+  D1 := EmptyDigraph(IsMutableDigraph, m * n);
+  D2 := EmptyDigraph(IsMutableDigraph, m * n);
 
   for i in [1 .. (m - 1)] do
     for j in [1 .. (n - 1)] do
@@ -519,11 +519,10 @@ InstallMethod(QueensGraphCons,
 "for IsMutableDigraph and two integers",
 [IsMutableDigraph, IsPosInt, IsPosInt],
 function(filt, m, n)
-  local D, D1, D2;
-  D1 := RooksGraphCons(filt, m, n);
-  D2 := BishopsGraphCons(filt, m, n);
-  D := DigraphEdgeUnion(D1, D2);
-  return D;
+  local D1, D2;
+  D1 := RooksGraphCons(IsMutableDigraph, m, n);
+  D2 := BishopsGraphCons(IsMutableDigraph, m, n);
+  return DigraphEdgeUnion(D1, D2);
 end);
 
 InstallMethod(QueensGraphCons,
