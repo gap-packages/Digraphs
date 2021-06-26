@@ -421,7 +421,7 @@ function(filt, color, m, n)
   D := MakeImmutable(BishopsGraphCons(IsMutableDigraph, color, m, n));
   SetIsMultiDigraph(D, false);
   SetIsSymmetricDigraph(D, true);
-  SetIsConnectedDigraph(D, true);
+  SetIsConnectedDigraph(D, m > 1 or n > 1);
   return D;
 end);
 
