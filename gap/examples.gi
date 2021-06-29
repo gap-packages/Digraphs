@@ -373,7 +373,7 @@ InstallMethod(BishopsGraphCons,
 "for IsMutableDigraph, a string and two positive integers",
 [IsMutableDigraph, IsString, IsPosInt, IsPosInt],
 function(filt, color, m, n)
-  local D, D1, D2, i, j, v, vertices, map;
+  local D1, D2, i, j, v, vertices, map;
 
   if not (color = "dark" or color = "light") then
     ErrorNoReturn(
@@ -408,9 +408,8 @@ function(filt, color, m, n)
   od;
   DigraphTransitiveClosure(D1);
   DigraphTransitiveClosure(D2);
-  D := DigraphEdgeUnion(D1, D2);
-  DigraphSymmetricClosure(D);
-  return D;
+  DigraphEdgeUnion(D1, D2);
+  return DigraphSymmetricClosure(D1);
 end);
 
 InstallMethod(BishopsGraphCons,
@@ -438,7 +437,7 @@ InstallMethod(BishopsGraphCons,
 "for IsMutableDigraph and two positive integers",
 [IsMutableDigraph, IsPosInt, IsPosInt],
 function(filt, m, n)
-  local D, D1, D2, i, j, v;
+  local D1, D2, i, j, v;
 
   D1 := EmptyDigraph(IsMutableDigraph, m * n);
   D2 := EmptyDigraph(IsMutableDigraph, m * n);
@@ -454,9 +453,8 @@ function(filt, m, n)
 
   DigraphTransitiveClosure(D1);
   DigraphTransitiveClosure(D2);
-  D := DigraphEdgeUnion(D1, D2);
-  DigraphSymmetricClosure(D);
-  return D;
+  DigraphEdgeUnion(D1, D2);
+  return DigraphSymmetricClosure(D1);
 end);
 
 InstallMethod(BishopsGraphCons,
@@ -484,12 +482,10 @@ InstallMethod(RooksGraphCons,
 "for IsMutableDigraph and two positive integers",
 [IsMutableDigraph, IsPosInt, IsPosInt],
 function(filt, m, n)
-  local D, completeD1, completeD2, cartesianProduct;
-  completeD1 := CompleteDigraph(n);
-  completeD2 := CompleteDigraph(m);
-  cartesianProduct := DigraphCartesianProduct(completeD1, completeD2);
-  D := DigraphMutableCopy(cartesianProduct);
-  return D;
+  local completeD1, completeD2;
+  completeD1 := CompleteDigraph(IsMutableDigraph, m);
+  completeD2 := CompleteDigraph(n);
+  return DigraphCartesianProduct(completeD1, completeD2);
 end);
 
 InstallMethod(RooksGraphCons,
