@@ -483,8 +483,8 @@ InstallMethod(RooksGraphCons,
 [IsMutableDigraph, IsPosInt, IsPosInt],
 function(filt, m, n)
   local completeD1, completeD2;
-  completeD1 := CompleteDigraph(IsMutableDigraph, m);
-  completeD2 := CompleteDigraph(n);
+  completeD1 := CompleteDigraph(IsMutableDigraph, n);
+  completeD2 := CompleteDigraph(m);
   return DigraphCartesianProduct(completeD1, completeD2);
 end);
 
