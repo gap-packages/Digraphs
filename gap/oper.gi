@@ -719,6 +719,18 @@ function(D, t)
   return MakeImmutable(OnDigraphs(DigraphMutableCopy(D), t));
 end);
 
+# TODO DigraphByOutNeighboursColl
+InstallMethod(OnTuplesDigraphs,
+"for list of digraphs and a perm",
+[IsDigraphCollection and IsList, IsPerm],
+{L, p} -> List(L, D -> OnDigraphs(D, p)));
+
+# TODO DigraphByOutNeighboursColl
+InstallMethod(OnSetsDigraphs,
+"for a set of digraphs and a perm",
+[IsDigraphCollection and IsSet, IsPerm],
+{S, p} -> Set(S, D -> OnDigraphs(D, p)));
+
 # Not revising the following because multi-digraphs are being withdrawn in the
 # near future.
 
