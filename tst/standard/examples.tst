@@ -233,6 +233,12 @@ gap> D := BishopsGraph("dark", 7, 9);
 <immutable connected symmetric digraph with 32 vertices, 272 edges>
 gap> IsConnectedDigraph(D);
 true
+gap> DigraphVertexLabels(D);         
+[ [ 1, 1 ], [ 3, 1 ], [ 5, 1 ], [ 7, 1 ], [ 9, 1 ], [ 2, 2 ], [ 4, 2 ], 
+  [ 6, 2 ], [ 8, 2 ], [ 1, 3 ], [ 3, 3 ], [ 5, 3 ], [ 7, 3 ], [ 9, 3 ], 
+  [ 2, 4 ], [ 4, 4 ], [ 6, 4 ], [ 8, 4 ], [ 1, 5 ], [ 3, 5 ], [ 5, 5 ], 
+  [ 7, 5 ], [ 9, 5 ], [ 2, 6 ], [ 4, 6 ], [ 6, 6 ], [ 8, 6 ], [ 1, 7 ], 
+  [ 3, 7 ], [ 5, 7 ], [ 7, 7 ], [ 9, 7 ] ]
 gap> D := BishopGraph("light", 4, 3);
 <immutable connected symmetric digraph with 6 vertices, 16 edges>
 gap> OutNeighbours(D);

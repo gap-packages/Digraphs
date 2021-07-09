@@ -373,7 +373,7 @@ InstallMethod(BishopsGraphCons,
 "for IsMutableDigraph, a string and two positive integers",
 [IsMutableDigraph, IsString, IsPosInt, IsPosInt],
 function(filt, color, m, n)
-  local D, D1, D2, i, j, v, vertices, map;
+  local D, D1, D2, i, j, v, vertices, map, pos, labels;
 
   if not (color = "dark" or color = "light") then
     ErrorNoReturn(
@@ -390,8 +390,27 @@ function(filt, color, m, n)
   D2 := EmptyDigraph(IsMutableDigraph, vertices);
 
   map := function(a)
-      return EuclideanQuotient(a + 1, 2);
+    return QuoInt(a + 1, 2);
   end;
+
+  pos := function(a)
+    if RemInt(a, n) = 0 then
+      return QuotientRemainder(a, n) + [0, n];
+    else
+      return QuotientRemainder(a, n) + [1, 0];
+    fi;
+  end;
+
+  labels := [];
+
+  for i in [1 .. m] do
+    for j in [1 .. n] do
+      if IsEvenInt(i + j) and color = "dark"
+          or IsOddInt(i + j) and color = "light" then
+        Add(labels, Reversed(pos((i - 1) * n + j)));
+      fi;
+    od;
+  od;
 
   for i in [1 .. (m - 1)] do
     for j in [1 .. (n - 1)] do
@@ -406,10 +425,12 @@ function(filt, color, m, n)
       fi;
     od;
   od;
+
   DigraphTransitiveClosure(D1);
   DigraphTransitiveClosure(D2);
   D := DigraphEdgeUnion(D1, D2);
   DigraphSymmetricClosure(D);
+  SetDigraphVertexLabels(D, labels);
   return D;
 end);
 
@@ -438,10 +459,26 @@ InstallMethod(BishopsGraphCons,
 "for IsMutableDigraph and two positive integers",
 [IsMutableDigraph, IsPosInt, IsPosInt],
 function(filt, m, n)
-  local D, D1, D2, i, j, v;
+  local D, D1, D2, i, j, v, pos, labels;
 
   D1 := EmptyDigraph(IsMutableDigraph, m * n);
   D2 := EmptyDigraph(IsMutableDigraph, m * n);
+
+  pos := function(a)
+    if RemInt(a, n) = 0 then
+      return QuotientRemainder(a, n) + [0, n];
+    else
+      return QuotientRemainder(a, n) + [1, 0];
+    fi;
+  end;
+
+  labels := [];
+
+  for i in [1 .. m] do
+    for j in [1 .. n] do
+        Add(labels, Reversed(pos((i - 1) * n + j)));
+    od;
+  od;
 
   for i in [1 .. (m - 1)] do
     for j in [1 .. (n - 1)] do
@@ -456,6 +493,7 @@ function(filt, m, n)
   DigraphTransitiveClosure(D2);
   D := DigraphEdgeUnion(D1, D2);
   DigraphSymmetricClosure(D);
+  SetDigraphVertexLabels(D, labels);
   return D;
 end);
 
