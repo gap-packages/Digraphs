@@ -286,11 +286,11 @@ gap> GeneralisedPetersenGraph(IsMutableDigraph, 9, 4);
 
     If the optional second argument <A>color</A> is present, then this should
     be one of the strings <C>"dark"</C> or <C>"light"</C>. When this argument
-    is not included, the function will return a disconnected graph (except in the case of
+    is not included, the function will return a disconnected digraph (except in the case of
     a 1-by-1 board) showing in one component all of the squares reachable by the
     light-square bishop, and in the other component all of the squares reachable by the
     dark-square bishop. If <A>color</A> is specified, then the function will return only
-    the relevant component as a stand-alone graph.<P/>
+    the relevant component as a stand-alone digraph.<P/>
     
     &STANDARD_FILT_TEXT;
 
