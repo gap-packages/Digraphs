@@ -87,6 +87,26 @@ DeclareConstructor("TadpoleGraphCons", [IsDigraph, IsPosInt, IsPosInt]);
 DeclareOperation("TadpoleGraph", [IsInt, IsPosInt]);
 DeclareOperation("TadpoleGraph", [IsFunction, IsPosInt, IsPosInt]);
 
+DeclareConstructor("RooksGraphCons", [IsDigraph, IsPosInt, IsPosInt]);
+DeclareOperation("RooksGraph", [IsPosInt, IsPosInt]);
+DeclareOperation("RooksGraph", [IsFunction, IsPosInt, IsPosInt]);
+DeclareSynonym("RookGraph", RooksGraph);
+
+DeclareConstructor("BishopsGraphCons",
+[IsDigraph, IsString, IsPosInt, IsPosInt]);
+DeclareOperation("BishopsGraph", [IsString, IsPosInt, IsPosInt]);
+DeclareOperation("BishopsGraph", [IsFunction, IsString, IsPosInt, IsPosInt]);
+DeclareConstructor("BishopsGraphCons",
+[IsDigraph, IsPosInt, IsPosInt]);
+DeclareOperation("BishopsGraph", [IsPosInt, IsPosInt]);
+DeclareOperation("BishopsGraph", [IsFunction, IsPosInt, IsPosInt]);
+DeclareSynonym("BishopGraph", BishopsGraph);
+
+DeclareConstructor("QueensGraphCons", [IsDigraph, IsPosInt, IsPosInt]);
+DeclareOperation("QueensGraph", [IsPosInt, IsPosInt]);
+DeclareOperation("QueensGraph", [IsFunction, IsPosInt, IsPosInt]);
+DeclareSynonym("QueenGraph", QueensGraph);
+
 DeclareConstructor("BookGraphCons", [IsDigraph, IsPosInt]);
 DeclareOperation("BookGraph", [IsPosInt]);
 DeclareOperation("BookGraph", [IsFunction, IsPosInt]);

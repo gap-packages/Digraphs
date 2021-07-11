@@ -88,12 +88,15 @@
     <#Include Label="JohnsonDigraph">
     <#Include Label="PetersenGraph">
     <#Include Label="GeneralisedPetersenGraph">
-    <#Include Label="BananaTree">
+    <#Include Label="BishopsGraph">
     <#Include Label="LollipopGraph">
+    <#Include Label="KingsGraph">
     <#Include Label="SquareGridGraph">
     <#Include Label="TriangularGridGraph">
+    <#Include Label="RooksGraph">
+    <#Include Label="QueensGraph">
+    <#Include Label="BananaTree">
     <#Include Label="HaarGraph">
-    <#Include Label="KingsGraph">
     <#Include Label="KnightsGraph">
     <#Include Label="StarGraph">
     <#Include Label="TadpoleGraph">
