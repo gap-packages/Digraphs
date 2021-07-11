@@ -473,10 +473,8 @@ function(filt, m, n)
 
   labels := [];
 
-  for i in [1 .. m] do
-    for j in [1 .. n] do
-        Add(labels, Reversed(pos((i - 1) * n + j)));
-    od;
+  for i in [1 .. m * n] do
+    Add(labels, Reversed(pos(i)));
   od;
 
   for i in [1 .. (m - 1)] do
