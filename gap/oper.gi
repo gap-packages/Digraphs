@@ -645,13 +645,15 @@ function(D1, D2)
   return(DIGRAPHS_GraphProduct(D1, D2, edge_function));
 end);
 
-InstallMethod(StrongProduct, "for a digraph and digraph",
+InstallMethod(StrongProduct, "for two symmetric digraphs",
 [IsDigraph, IsDigraph],
 function(D1, D2)
   local edge_function;
 
   if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
     ErrorNoReturn("StrongProduct does not support multidigraphs,");
+  elif not IsSymmetricDigraph(D1) or not IsSymmetricDigraph(D2) then
+    ErrorNoReturn("StrongProduct only supports symmetric digraphs,");
   fi;
 
   edge_function := function(u, v, m, n, map)
@@ -672,13 +674,15 @@ function(D1, D2)
   return(DIGRAPHS_GraphProduct(D1, D2, edge_function));
 end);
 
-InstallMethod(CoNormalProduct, "for a digraph and digraph",
+InstallMethod(CoNormalProduct, "for two symmetric digraphs",
 [IsDigraph, IsDigraph],
 function(D1, D2)
   local edge_function;
 
   if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
     ErrorNoReturn("CoNormalProduct does not support multidigraphs,");
+  elif not IsSymmetricDigraph(D1) or not IsSymmetricDigraph(D2) then
+    ErrorNoReturn("CoNormalProduct only supports symmetric digraphs,");
   fi;
 
   edge_function := function(u, v, m, n, map)
@@ -700,13 +704,15 @@ function(D1, D2)
   return(DIGRAPHS_GraphProduct(D1, D2, edge_function));
 end);
 
-InstallMethod(HomomorphicProduct, "for a digraph and digraph",
+InstallMethod(HomomorphicProduct, "for two symmetric digraphs",
 [IsDigraph, IsDigraph],
 function(D1, D2)
   local edge_function;
 
   if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
     ErrorNoReturn("HomomorphicProduct does not support multidigraphs,");
+  elif not IsSymmetricDigraph(D1) or not IsSymmetricDigraph(D2) then
+    ErrorNoReturn("HomomorphicProduct only supports symmetric digraphs,");
   fi;
 
   edge_function := function(u, v, m, n, map)
@@ -726,13 +732,15 @@ function(D1, D2)
   return(DIGRAPHS_GraphProduct(D1, D2, edge_function));
 end);
 
-InstallMethod(LexicographicProduct, "for a digraph and digraph",
+InstallMethod(LexicographicProduct, "for two symmetric digraphs",
 [IsDigraph, IsDigraph],
 function(D1, D2)
   local edge_function;
 
   if IsMultiDigraph(D1) or IsMultiDigraph(D2) then
     ErrorNoReturn("LexicographicProduct does not support multidigraphs,");
+  elif not IsSymmetricDigraph(D1) or not IsSymmetricDigraph(D2) then
+    ErrorNoReturn("LexicographicProduct only supports symmetric digraphs,");
   fi;
 
   edge_function := function(u, v, m, n, map)

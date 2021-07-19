@@ -2323,6 +2323,8 @@ gap> OutNeighbours(last);
   [ 2, 3, 4, 6, 8, 10, 11, 12 ], [ 1, 3, 4, 5, 7, 9, 11, 12 ], 
   [ 5, 6, 8, 10, 12 ], [ 5, 6, 7, 9, 11 ], [ 6, 7, 8, 10, 12 ], 
   [ 5, 7, 8, 9, 11 ] ]
+gap> StrongProduct(ChainDigraph(2), ChainDigraph(8));
+Error, StrongProduct only supports symmetric digraphs,
 
 #CoNormalProduct
 gap> D := Digraph([[2, 4, 4], [1, 3], [2, 4], [1, 1, 3]]);
@@ -2337,6 +2339,8 @@ gap> DigraphSymmetricClosure(CycleDigraph(3));
 <immutable symmetric digraph with 3 vertices, 6 edges>
 gap> CoNormalProduct(last, last);
 <immutable digraph with 9 vertices, 72 edges>
+gap> CoNormalProduct(CycleDigraph(2), CycleDigraph(8));
+Error, CoNormalProduct only supports symmetric digraphs,
 
 #HomomorphicProduct
 gap> D := Digraph([[2, 3], [1, 3, 3], [1, 2, 2]]);
@@ -2394,6 +2398,8 @@ gap> OutNeighbours(last);
   [ 73, 74, 75, 76, 77, 78, 79, 80 ], [ 73, 74, 75, 76, 77, 78, 79, 80 ], 
   [ 73, 74, 75, 76, 77, 78, 79, 80 ], [ 73, 74, 75, 76, 77, 78, 79, 80 ], 
   [ 73, 74, 75, 76, 77, 78, 79, 80 ], [ 73, 74, 75, 76, 77, 78, 79, 80 ] ]
+gap> HomomorphicProduct(CompleteDigraph(8), CycleDigraph(8));
+Error, HomomorphicProduct only supports symmetric digraphs,
 
 #LexicographicProduct
 gap> D := Digraph([[2, 2, 2], [1, 1, 1]]);
@@ -2424,6 +2430,8 @@ gap> OutNeighbours(last);
   [ 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20 ], 
   [ 9, 10, 11, 12, 13, 14, 15, 16, 18 ], 
   [ 9, 10, 11, 12, 13, 14, 15, 16, 18 ] ]
+gap> LexicographicProduct(ChainDigraph(3), CycleDigraph(7));   
+Error, LexicographicProduct only supports symmetric digraphs,
 
 # DigraphShortestPathSpanningTree
 gap> D := Digraph([[2, 3, 4], [1, 3, 4, 5], [1, 2], [5], [4]]);
