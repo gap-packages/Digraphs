@@ -103,6 +103,8 @@
     <#Include Label="StarGraph">
     <#Include Label="TadpoleGraph">
     <#Include Label="BookGraph">
+    <#Include Label="StackedBookGraph">
+    <#Include Label="BinaryTree">
   </Section>
 
 </Chapter>
