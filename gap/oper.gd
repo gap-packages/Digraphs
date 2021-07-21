@@ -46,9 +46,15 @@ DeclareOperation("StrongProduct", [IsDigraph, IsDigraph]);
 DeclareOperation("CoNormalProduct", [IsDigraph, IsDigraph]);
 DeclareOperation("HomomorphicProduct", [IsDigraph, IsDigraph]);
 DeclareOperation("LexicographicProduct", [IsDigraph, IsDigraph]);
-DeclareOperation("DIGRAPHS_GraphProduct", [IsDigraph, IsDigraph, IsFunction]);
+
+DeclareSynonym("DigraphModularProduct", ModularProduct);
+DeclareSynonym("DigraphStrongProduct", StrongProduct);
+DeclareSynonym("DigraphCoNormalProduct", CoNormalProduct);
+DeclareSynonym("DigraphHomomorphicProduct", HomomorphicProduct);
+DeclareSynonym("DigraphLexicographicProduct", LexicographicProduct);
 
 DeclareGlobalFunction("DIGRAPHS_CombinationOperProcessArgs");
+DeclareOperation("DIGRAPHS_GraphProduct", [IsDigraph, IsDigraph, IsFunction]);
 
 # 4. Actions . . .
 DeclareOperation("OnDigraphs", [IsDigraph, IsPerm]);
